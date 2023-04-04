@@ -8,7 +8,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
 	const startnow = () => page.set("question") 
-	const close = () => page.set("home")
 </script>
 {#if currentPage == "home"}
 <main>

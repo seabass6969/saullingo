@@ -1,7 +1,7 @@
 <script>
-
 	import BigProgressBar from "../components/BigProgressBar.svelte";
-
+	import { page } from "../lib/stores";
+	const close = () => page.set("home")
 </script>
 <main>
 	<div class="topbar">
