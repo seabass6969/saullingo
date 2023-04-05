@@ -17,15 +17,15 @@
 	<div class="question">
 		<span class="questions">Question: Type your answer</span>
 		<span class="description">ABC</span>
-		<br>
 		<span class="typehere">Type text here:</span>
-		<input type="text" name="" id="">
+		<input type="text" name="" id="" class="answerbox">
 	</div>
 	<button class="forgot">Forgot</button>
 	<button class="check">Check</button>
 </main>
 <style lang="scss">
 	// Answering screen
+	$margin-question: 10vw;
 	.topbar {
 		width: 100vw;
 		background-color: #DDDDDD;
@@ -34,6 +34,12 @@
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: 15vh 59vh 13vh 13vh;
+	}
+	.question {
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 13vh 20vh 5vh 13vh;
+
 	}
 	.close {
 		width: 45px;
@@ -65,7 +71,7 @@
 	}
 	.questions {
 		margin-top: 10px;
-		margin-left: 14px;
+		margin-left: $margin-question;
 		@include text-question;
 	}
 	.check {
@@ -85,5 +91,23 @@
 		height: 10vh;
 		margin-top: 1vh;
 		margin-bottom: 1vh;
+	}
+	.description {
+		margin-left: $margin-question;
+		@include text-x;
+	}
+	.typehere {
+		margin-left: $margin-question;
+		font-family: 'Kaisei Tokumin';
+		font-style: normal;
+		font-weight: 800;
+		font-size: 15px;
+		line-height: 22px;
+	}
+	.answerbox {
+		margin-left: $margin-question;
+		margin-right: $margin-question;
+		border-style: none;
+		background: #9ED6FF;
 	}
 </style>
