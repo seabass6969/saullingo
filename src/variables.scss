@@ -14,6 +14,7 @@ $alert-color: #FF0000;
     &:hover{
         animation: forwards 300ms smallboxshadowbtnclose;
     }
+    cursor: grabbing;
 }
 @keyframes smallboxshadowbtnclose{
     0%{
@@ -32,11 +33,13 @@ $alert-color: #FF0000;
     }
 }
 @mixin boxshadow-btn {
+    
     box-shadow: 10px 7px 0px $secondary-color;
     animation: forwards 300ms boxshadowbtnopen;
     &:hover{
         animation: forwards 300ms boxshadowbtnclose;
     }
+    cursor: grabbing;
 }
 @keyframes boxshadowbtnclose{
     0%{

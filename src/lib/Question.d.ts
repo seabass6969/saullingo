@@ -1,3 +1,13 @@
+export enum questionStatus {
+	answer,
+	forgot,
+	wrong,
+	right
+}
+export enum pageType {
+	question,
+	home
+}
 export enum questionTypes {
 	LongQuestion,
 	Selection

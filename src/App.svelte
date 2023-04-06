@@ -2,14 +2,16 @@
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import { courseItem } from "./lib/CourseItem";
+	//@ts-ignore
+	import { pageType } from "./lib/Question.d.ts";
 	import { page } from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
-	let currentPage = "home"
+	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
-	const startnow = () => page.set("question") 
+	const startnow = () => page.set(pageType.question) 
 </script>
-{#if currentPage == "home"}
+{#if currentPage == pageType.home}
 <main>
 	<div class="topbar">
 		<span class="title">Saullingo</span>
@@ -31,7 +33,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	</div>
 	<button class="startnow" on:click={startnow}>start now</button>
 </main>
-{:else if currentPage == "question"}
+{:else if currentPage == pageType.question}
 <Questions />
 {:else}
 <h1>ERROR ERROR </h1>

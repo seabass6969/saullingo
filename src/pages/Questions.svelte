@@ -1,7 +1,15 @@
 <script>
 	import BigProgressBar from "../components/BigProgressBar.svelte";
-	import { page } from "../lib/stores";
-	const close = () => page.set("home")
+	//@ts-ignore
+	import { pageType, questionStatus} from "../lib/Question.d.ts";
+	import { page, questionStats } from "../lib/stores";
+	let stats = questionStatus.answer 
+	const close = () => page.set(pageType.home)
+	questionStats.set(questionStatus.answer)
+	const check = () => questionStats.set(questionStatus.right)
+	const forgot = () => questionStats.set(questionStatus.forgot)
+	const next = () => questionStats.set(questionStatus.answer)
+	questionStats.subscribe(value => stats = value)
 </script>
 <main>
 	<div class="topbar">
@@ -14,14 +22,24 @@
 			<span class="progressNumber">75%</span>
 		</div>
 	</div>
-	<div class="question">
-		<span class="questions">Question: Type your answer</span>
-		<span class="description">ABC</span>
-		<span class="typehere">Type text here:</span>
-		<input type="text" name="" id="" class="answerbox">
-	</div>
-	<button class="forgot">Forgot</button>
-	<button class="check">Check</button>
+	{#if stats == questionStatus.answer}
+		<div class="question">
+			<span class="questions">Question: Type your answer</span>
+			<span class="description">ABC</span>
+			<span class="typehere">Type text here:</span>
+			<input type="text" name="" id="" class="answerbox">
+		</div>
+		<button class="forgot" on:click={forgot}>Forgot</button>
+		<button class="check" on:click={check}>Check</button>
+	{:else if stats == questionStatus.forgot}
+		<div class="question">
+			<span class="questions">Question: Type your answer</span>
+			<span class="description">ABC</span>
+			<span class="typehere">answer:</span>
+			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+		</div>
+		<button class="next" on:click={next}>next</button>
+	{/if}
 </main>
 <style lang="scss">
 	// Answering screen
@@ -109,5 +127,20 @@
 		margin-right: $margin-question;
 		border-style: none;
 		background: #9ED6FF;
+	}
+	.answers{
+		margin-left: $margin-question;
+		margin-right: $margin-question;
+		border-style: none;
+		background: #E6FF9E;
+	}
+	.next {
+		background-color: #E6FF9E;
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		height: 10vh;
+		margin-top: 1vh;
+		margin-bottom: 1vh;
 	}
 </style>
