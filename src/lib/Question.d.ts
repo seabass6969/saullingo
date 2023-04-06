@@ -2,7 +2,7 @@ export enum questionStatus {
 	answer,
 	forgot,
 	wrong,
-	right
+	correct
 }
 export enum pageType {
 	question,

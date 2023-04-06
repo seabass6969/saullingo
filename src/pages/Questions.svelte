@@ -1,16 +1,28 @@
 <script>
 	import BigProgressBar from "../components/BigProgressBar.svelte";
+	import FloatingAnimation from "../components/FloatingAnimation.svelte";
 	//@ts-ignore
 	import { pageType, questionStatus} from "../lib/Question.d.ts";
 	import { page, questionStats } from "../lib/stores";
 	let stats = questionStatus.answer 
 	const close = () => page.set(pageType.home)
 	questionStats.set(questionStatus.answer)
-	const check = () => questionStats.set(questionStatus.right)
+	const check = () => questionStats.set(questionStatus.correct)
 	const forgot = () => questionStats.set(questionStatus.forgot)
 	const next = () => questionStats.set(questionStatus.answer)
 	questionStats.subscribe(value => stats = value)
+	// animations area
+	let activeAnimation = false
+	$: {
+		if(stats == questionStatus.correct){
+			activeAnimation = true
+		}else{
+			activeAnimation = false
+		}
+	}
+
 </script>
+<FloatingAnimation active={activeAnimation} />
 <main>
 	<div class="topbar">
 		<div class="inTest">
@@ -32,7 +44,26 @@
 		<button class="forgot" on:click={forgot}>Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 	{:else if stats == questionStatus.forgot}
-		<div class="question">
+		<div class="forgotPage">
+			<span class="forgotText">Going back later</span>
+			<span class="questions">Question: Type your answer</span>
+			<span class="description">ABC</span>
+			<span class="typehere">answer:</span>
+			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+		</div>
+		<button class="next" on:click={next}>next</button>
+	{:else if stats == questionStatus.wrong}
+		<div class="wrongPage">
+			<span class="wrongText">Well done!</span>
+			<span class="questions">Question: Type your answer</span>
+			<span class="description">ABC</span>
+			<span class="typehere">answer:</span>
+			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+		</div>
+		<button class="next" on:click={next}>next</button>
+	{:else if stats == questionStatus.correct}
+		<div class="correctPage">
+			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">ABC</span>
 			<span class="typehere">answer:</span>
@@ -57,7 +88,40 @@
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: 13vh 20vh 5vh 13vh;
+	}
 
+	.wrongText{
+		margin-left: $margin-question;
+		margin-top: 10px;
+		@include text-question;
+		color: $alert-color;
+	}
+	.wrongPage{
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
+	}
+	.correctText{
+		margin-left: $margin-question;
+		margin-top: 10px;
+		@include text-question;
+		color: $base-color;
+	}
+	.correctPage{
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
+	}
+	.forgotPage{
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
+	}
+	.forgotText {
+		margin-left: $margin-question;
+		margin-top: 10px;
+		@include text-question;
+		color: red;
 	}
 	.close {
 		width: 45px;

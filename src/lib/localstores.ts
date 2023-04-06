@@ -1,0 +1,1 @@
+export const settingStorage = () => {localStorage.setItem("item", JSON.stringify([]))}
