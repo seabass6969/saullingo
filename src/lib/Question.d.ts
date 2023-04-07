@@ -6,13 +6,15 @@ export enum questionStatus {
 }
 export enum pageType {
 	question,
-	home
+	home,
+	starter
 }
 export enum questionTypes {
 	LongQuestion,
 	Selection
 }
 export interface QuestionSample {
+	index: number,
 	question: string,
 	answer: string
 }

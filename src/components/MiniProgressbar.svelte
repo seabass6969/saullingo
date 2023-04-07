@@ -1,7 +1,8 @@
 <script lang="ts">
-    export let progressFloat:number
+    export let progressFloat
+	let progress = progressFloat.completed.length / progressFloat.data.length
 </script>
-<div class="progressbarback"><div class="progressing" style="width: calc({progressFloat}*40vw)"></div></div>
+<div class="progressbarback"><div class="progressing" style="width: calc({progress}*40vw)"></div></div>
 <style lang="scss">
 	.progressbarback{
 		width: 40vw;
