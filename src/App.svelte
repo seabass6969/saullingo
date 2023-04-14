@@ -10,6 +10,22 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
+	let questionCouldAskedSub 
+	questionCouldAsked.subscribe(value => questionCouldAskedSub = value)
+	const checkIfAllComplete = () => {
+		let iFComplete = 0
+		questionCouldAskedSub.forEach(element => {
+			if(element[0] == undefined){
+				iFComplete += 1
+			}
+		});
+		if(questionCouldAskedSub.length == iFComplete){
+			return true
+		}else{
+			return false
+		}
+		
+	}
 	const startnow = () => {
 		let questionAsked = []
 		progressItems.forEach(element => {
@@ -18,10 +34,14 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 				inCompleteindex = inCompleteindex.filter(value => value != els)
 			});
 			questionAsked.push(inCompleteindex)
-			console.log(questionAsked)
 		});
+		console.log(questionAsked)
 		questionCouldAsked.set(questionAsked)
-		page.set(pageType.question)
+		if(checkIfAllComplete() == false){
+			page.set(pageType.question)
+		}else{
+			alert("sorry All your Task has complete")
+		}
 	} 
 	const home = () => page.set(pageType.home) 
 	

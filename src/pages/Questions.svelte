@@ -1,16 +1,42 @@
 <script>
 	import BigProgressBar from "../components/BigProgressBar.svelte";
 	import FloatingAnimation from "../components/FloatingAnimation.svelte";
+	import Radiobox from "../components/Radiobox.svelte";
+	import { courseItem } from "../lib/CourseItem";
 	//@ts-ignore
-	import { pageType, questionStatus} from "../lib/Question.d.ts";
-	import { page, questionStats } from "../lib/stores";
+	import { pageType, questionStatus, questionTypes} from "../lib/Question.d.ts";
+	import { page, questionCouldAsked, questionOn, questionStats} from "../lib/stores";
 	let stats = questionStatus.answer 
+	let questionAsked
+	let questionOns 
+	let questionType = questionTypes.LongQuestion
+	let answerboz
 	const close = () => page.set(pageType.home)
 	questionStats.set(questionStatus.answer)
-	const check = () => questionStats.set(questionStatus.correct)
-	const forgot = () => questionStats.set(questionStatus.forgot)
-	const next = () => questionStats.set(questionStatus.answer)
+	const check = () => {
+		questionStats.set(questionStatus.correct)
+	}
+	const forgot = () => {questionStats.set(questionStatus.forgot)}
+	const next = () => {questionStats.set(questionStatus.answer)}
 	questionStats.subscribe(value => stats = value)
+	const changeQuestionOn = () => {
+		let indexOn = 0
+		let questionOna = 0
+		questionAsked.forEach(element => {
+			if(element[0] == undefined){
+				indexOn+=1
+			}else{
+				questionOna = element[0]
+				questionOn.set(courseItem[indexOn]["ListQuestion"][questionOna])
+				questionType = courseItem[indexOn]["ListQuestion"][questionOna].Type
+				console.log($questionOn)
+			}
+		});
+		// questionOn.set([questionAsked[0][0]])
+	}
+
+	questionCouldAsked.subscribe(value =>{questionAsked = value; changeQuestionOn()})
+	questionOn.subscribe(value => {questionOns = value;})
 	// animations area
 	let activeAnimation = false
 	$: {
@@ -35,39 +61,48 @@
 		</div>
 	</div>
 	{#if stats == questionStatus.answer}
-		<div class="question">
-			<span class="questions">Question: Type your answer</span>
-			<span class="description">ABC</span>
-			<span class="typehere">Type text here:</span>
-			<input type="text" name="" id="" class="answerbox">
-		</div>
-		<button class="forgot" on:click={forgot}>Forgot</button>
+	 	{#if questionType == questionTypes.LongQuestion}
+			<div class="question">
+				<span class="questions">Question: Type your answer</span>
+				<span class="description">{$questionOn["question"]}</span>
+				<span class="typehere">Type text here:</span>
+				<input type="text" name="" id="" class="answerbox" bind:value={answerboz}>
+			</div>
+		{:else if questionType == questionTypes.SelectionQuestion}
+			<div class="question">
+				<span class="questions">Question: Click On you Answer</span>
+				<span class="description">{$questionOn["question"]}</span>
+				<span class="typehere">click answer:</span>
+				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
+			</div>
+		{/if}
+		<button class="forgot" on:click={forgot} disabled>Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 	{:else if stats == questionStatus.forgot}
 		<div class="forgotPage">
 			<span class="forgotText">Going back later</span>
 			<span class="questions">Question: Type your answer</span>
-			<span class="description">ABC</span>
+			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+			<div class="answers">{$questionOn["answer"]}</div>
 		</div>
 		<button class="next" on:click={next}>next</button>
 	{:else if stats == questionStatus.wrong}
 		<div class="wrongPage">
 			<span class="wrongText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
-			<span class="description">ABC</span>
+			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+			<div class="answers">{$questionOn["answer"]}</div>
 		</div>
 		<button class="next" on:click={next}>next</button>
 	{:else if stats == questionStatus.correct}
 		<div class="correctPage">
 			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
-			<span class="description">ABC</span>
+			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">ABVCCKJBDSLKJFHSLDFJ</div>
+			<div class="answers">{$questionOn["answer"]}</div>
 		</div>
 		<button class="next" on:click={next}>next</button>
 	{/if}
