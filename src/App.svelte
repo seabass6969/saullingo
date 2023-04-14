@@ -26,17 +26,22 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		}
 		
 	}
-	const startnow = () => {
+	const resetQuestionAskVAR = () => {
 		let questionAsked = []
-		progressItems.forEach(element => {
+		let progressItemsINlocalStorage = JSON.parse(localStorage.getItem("progress"))
+		progressItemsINlocalStorage.forEach(element => {
 			let inCompleteindex = element.data
 			element.completed.forEach(els => {
 				inCompleteindex = inCompleteindex.filter(value => value != els)
 			});
 			questionAsked.push(inCompleteindex)
 		});
+		console.log("QuestionAsked")
 		console.log(questionAsked)
 		questionCouldAsked.set(questionAsked)
+	}
+	const startnow = () => {
+		resetQuestionAskVAR()
 		if(checkIfAllComplete() == false){
 			page.set(pageType.question)
 		}else{
@@ -99,7 +104,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 				<div class="gap"></div>
 			{/if}
 			<div class="coursetext">{course.courseName}
-				<MiniProgressbar progressFloat={progressItems[i]}/>
+				<MiniProgressbar progressFloat={i}/>
 			</div>
 		 	{#if (course.index % 2) == 1}
 				<div class="gap"></div>

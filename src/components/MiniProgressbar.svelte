@@ -1,6 +1,7 @@
 <script lang="ts">
     export let progressFloat
-	let progress = progressFloat.completed.length / progressFloat.data.length
+	let localStorageITEM = JSON.parse(localStorage.getItem("progress"))[progressFloat]
+	let progress = localStorageITEM.completed.length / localStorageITEM.data.length
 </script>
 <div class="progressbarback"><div class="progressing" style="width: calc({progress}*40vw)"></div></div>
 <style lang="scss">

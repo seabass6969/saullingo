@@ -5,34 +5,85 @@
 	import { courseItem } from "../lib/CourseItem";
 	//@ts-ignore
 	import { pageType, questionStatus, questionTypes} from "../lib/Question.d.ts";
-	import { page, questionCouldAsked, questionOn, questionStats} from "../lib/stores";
+	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
 	let questionType = questionTypes.LongQuestion
 	let answerboz
+	const resetQuestionAskVAR = () => {
+		let questionAsked = []
+		let progressItems = JSON.parse(localStorage.getItem("progress"))
+		progressItems.forEach(element => {
+			let inCompleteindex = element.data
+			element.completed.forEach(els => {
+				inCompleteindex = inCompleteindex.filter(value => value != els)
+			});
+			questionAsked.push(inCompleteindex)
+		});
+		console.log("QuestionAsked")
+		console.log(questionAsked)
+		questionCouldAsked.set(questionAsked)
+	}
 	const close = () => page.set(pageType.home)
 	questionStats.set(questionStatus.answer)
 	const check = () => {
-		questionStats.set(questionStatus.correct)
+		if(answerboz == $questionOn["answer"]){
+			questionStats.set(questionStatus.correct)
+		}else{
+			questionStats.set(questionStatus.wrong)
+		}
 	}
 	const forgot = () => {questionStats.set(questionStatus.forgot)}
-	const next = () => {questionStats.set(questionStatus.answer)}
+	const checkingIfAllQuestionDone = () => {
+		let iFComplete = 0
+		$questionCouldAsked.forEach(element => {
+			if(element[0] == undefined){
+				iFComplete += 1
+			}
+		});
+		if($questionCouldAsked.length == iFComplete){
+			return true
+		}else{
+			return false
+		}
+	}
+	const next = () => {
+		if(checkingIfAllQuestionDone() == false){
+			setingCompleting()
+			resetQuestionAskVAR()
+			changeQuestionOn()
+			questionStats.set(questionStatus.answer)
+		}else{
+			alert("all are done for now")
+			page.set(pageType.home)
+		}
+	}
+	const again = () => {questionStats.set(questionStatus.answer)}
 	questionStats.subscribe(value => stats = value)
+	const setingCompleting = () => {
+		let localStorageProgress = JSON.parse(localStorage.getItem("progress"))
+		localStorageProgress[$questionOnbyID[0]]["completed"].push($questionOnbyID[1])
+		localStorage.setItem("progress", JSON.stringify(localStorageProgress))
+	}
 	const changeQuestionOn = () => {
 		let indexOn = 0
 		let questionOna = 0
+		let completed = false
 		questionAsked.forEach(element => {
-			if(element[0] == undefined){
-				indexOn+=1
-			}else{
-				questionOna = element[0]
-				questionOn.set(courseItem[indexOn]["ListQuestion"][questionOna])
-				questionType = courseItem[indexOn]["ListQuestion"][questionOna].Type
-				console.log($questionOn)
+			if(completed == false){
+				if(element[0] == undefined){
+					indexOn+=1
+				}else{
+					questionOna = element[0]
+					questionOnbyID.set([indexOn, questionOna])
+					questionOn.set(courseItem[indexOn]["ListQuestion"][questionOna])
+					questionType = courseItem[indexOn]["ListQuestion"][questionOna].Type
+					console.log($questionOn)
+					completed = true
+				}
 			}
 		});
-		// questionOn.set([questionAsked[0][0]])
 	}
 
 	questionCouldAsked.subscribe(value =>{questionAsked = value; changeQuestionOn()})
@@ -89,13 +140,13 @@
 		<button class="next" on:click={next}>next</button>
 	{:else if stats == questionStatus.wrong}
 		<div class="wrongPage">
-			<span class="wrongText">Well done!</span>
+			<span class="wrongText">Wrong!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
 			<div class="answers">{$questionOn["answer"]}</div>
 		</div>
-		<button class="next" on:click={next}>next</button>
+		<button class="next" on:click={again}>again</button>
 	{:else if stats == questionStatus.correct}
 		<div class="correctPage">
 			<span class="correctText">Well done!</span>
