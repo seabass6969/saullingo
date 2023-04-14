@@ -21,8 +21,6 @@
 			});
 			questionAsked.push(inCompleteindex)
 		});
-		console.log("QuestionAsked")
-		console.log(questionAsked)
 		questionCouldAsked.set(questionAsked)
 	}
 	const close = () => page.set(pageType.home)
@@ -49,12 +47,12 @@
 		}
 	}
 	const next = () => {
-		if(checkingIfAllQuestionDone() == false){
-			setingCompleting()
-			resetQuestionAskVAR()
-			changeQuestionOn()
-			questionStats.set(questionStatus.answer)
-		}else{
+		setingCompleting()
+		resetQuestionAskVAR()
+		changeQuestionOn()
+		questionStats.set(questionStatus.answer)
+		answerboz = ""
+		if(checkingIfAllQuestionDone() == true){
 			alert("all are done for now")
 			page.set(pageType.home)
 		}
@@ -79,7 +77,6 @@
 					questionOnbyID.set([indexOn, questionOna])
 					questionOn.set(courseItem[indexOn]["ListQuestion"][questionOna])
 					questionType = courseItem[indexOn]["ListQuestion"][questionOna].Type
-					console.log($questionOn)
 					completed = true
 				}
 			}
@@ -104,11 +101,11 @@
 	<div class="topbar">
 		<div class="inTest">
 			<button class="close" on:click={close}></button>
-			<BigProgressBar progressFloat={0.75}/>
+			<BigProgressBar progressFloat={1}/>
 		</div>
 		<div class="titlebar">
-			<span class="coursetitle">course 1 - ABC</span>
-			<span class="progressNumber">75%</span>
+			<span class="coursetitle">Course {$questionOnbyID[0]} - {courseItem[$questionOnbyID[0]].courseName}</span>
+			<span class="progressNumber"></span>
 		</div>
 	</div>
 	{#if stats == questionStatus.answer}

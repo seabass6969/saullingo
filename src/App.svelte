@@ -36,8 +36,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			});
 			questionAsked.push(inCompleteindex)
 		});
-		console.log("QuestionAsked")
-		console.log(questionAsked)
 		questionCouldAsked.set(questionAsked)
 	}
 	const startnow = () => {
