@@ -32,7 +32,7 @@
 			questionStats.set(questionStatus.wrong)
 		}
 	}
-	const forgot = () => {questionStats.set(questionStatus.forgot)}
+	// const forgot = () => {questionStats.set(questionStatus.forgot)}
 	const checkingIfAllQuestionDone = () => {
 		let iFComplete = 0
 		$questionCouldAsked.forEach(element => {
@@ -124,7 +124,7 @@
 				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
 			</div>
 		{/if}
-		<button class="forgot" on:click={forgot} disabled>Forgot</button>
+		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 	{:else if stats == questionStatus.forgot}
 		<div class="forgotPage">

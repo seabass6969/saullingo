@@ -112,8 +112,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	<button class="startnow" on:click={startnow}>start now</button>
 </main>
 {:else if currentPage == pageType.starter}
-<h1>welcome to the show</h1>
-<button on:click={home}>Lets goooo</button>
+<h1>welcome to saullingo</h1>
+<h2>saullingo is the gateway to language learning</h2>
+<button on:click={home} class="startgo">Lets goooo</button>
 {:else if currentPage == pageType.question}
 <Questions />
 {:else}
@@ -155,5 +156,10 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	.maincontent {
 		display: grid;
 		grid-template-columns: auto auto ;
+	}
+	.startgo {
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
 	}
 </style>
