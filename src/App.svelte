@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { fly } from 'svelte/transition';
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
-	import { EmptyProgressItem, courseItem} from "./lib/CourseItem";
+	import { EmptyProgressItem, courseItem, courseItemVersion} from "./lib/CourseItem";
 	//@ts-ignore
-	import { pageType } from "./lib/Question.d.ts";
+	import { pageType } from "./lib/Question";
 	import { page, questionCouldAsked, questionOn } from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
 	let currentPage:pageType = pageType.home
@@ -12,6 +13,14 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	let dayStreak = 0
 	let questionCouldAskedSub 
 	questionCouldAsked.subscribe(value => questionCouldAskedSub = value)
+	const selfBURNING = () => {
+		if((localStorage.getItem("version") == undefined) || (localStorage.getItem("version") != courseItemVersion)){
+			console.log("destorying old content")
+			localStorage.clear()
+			localStorage.setItem("version", courseItemVersion)
+			location.reload()
+		}
+	}
 	const checkIfAllComplete = () => {
 		let iFComplete = 0
 		questionCouldAskedSub.forEach(element => {
@@ -48,10 +57,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	} 
 	const home = () => page.set(pageType.home) 
 	
-	let progressItems = EmptyProgressItem
-
-	if(localStorage.getItem('progress') == undefined){
-		console.log("new so creating it")
+	function generateProgressItem(){
 		let progressItem = []
 		courseItem.forEach(element => {
 			let QuestionIndex = []
@@ -64,7 +70,15 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 				completed: []
 			})
 		});
-		localStorage.setItem('progress', JSON.stringify(progressItem))
+		return progressItem
+	}
+	let progressItems  
+
+	if(localStorage.getItem('progress') == undefined){
+		console.log("new so creating it")
+		localStorage.setItem('progress', JSON.stringify(generateProgressItem()))
+	}else if (generateProgressItem() != JSON.parse(localStorage.getItem('progress'))){
+		console.log("not same")
 	}else{
 		progressItems = JSON.parse(localStorage.getItem("progress"))
 	}
@@ -83,6 +97,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		}
 	}
 	onMount(()=> {
+		selfBURNING()
 		if(checkNewUser() == true){
 			page.set(pageType.starter)
 		}
@@ -90,7 +105,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	})
 </script>
 {#if currentPage == pageType.home}
-<main>
+<main transition:fly={{y:-200,duration: 400}}>
 	<div class="topbar">
 		<span class="title">Saullingo</span>
 		<br>
@@ -111,12 +126,18 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	</div>
 	<button class="startnow" on:click={startnow}>start now</button>
 </main>
+{:else if currentPage == pageType.update}
+<h1>Update</h1>
+<h2>Something is updating!!!</h2>
+<button on:click={home} class="startgo">goooo back</button>
 {:else if currentPage == pageType.starter}
 <h1>welcome to saullingo</h1>
 <h2>saullingo is the gateway to language learning</h2>
 <button on:click={home} class="startgo">Lets goooo</button>
 {:else if currentPage == pageType.question}
+<div transition:fly={{y: 200, duration: 400}}>
 <Questions />
+</div>
 {:else}
 <h1>ERROR ERROR </h1>
 {/if}

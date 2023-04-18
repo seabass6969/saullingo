@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
+	import { fly } from "svelte/transition";
 	import BigProgressBar from "../components/BigProgressBar.svelte";
 	import FloatingAnimation from "../components/FloatingAnimation.svelte";
+	import Matching from "../components/Matching.svelte";
 	import Radiobox from "../components/Radiobox.svelte";
 	import { courseItem } from "../lib/CourseItem";
 	//@ts-ignore
-	import { pageType, questionStatus, questionTypes} from "../lib/Question.d.ts";
+	import { pageType, questionStatus, questionTypes} from "../lib/Question";
+	import { spin } from "../lib/animation";
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
 	let stats = questionStatus.answer 
 	let questionAsked
@@ -25,8 +28,21 @@
 	}
 	const close = () => page.set(pageType.home)
 	questionStats.set(questionStatus.answer)
+
+	function checkingAnswerLogic (): boolean{
+		if (questionType == questionTypes.LongQuestion) {
+			if(answerboz == $questionOn["answer"]) return true
+			if(answerboz != $questionOn["answer"]) return false
+		}else if (questionType == questionTypes.MatchingQuestion){
+			if(answerboz == $questionOn["answer"]) return true
+			if(answerboz != $questionOn["answer"]) return true
+		}else if (questionType == questionTypes.SelectionQuestion){
+			if(answerboz == $questionOn["answer"]) return true
+			if(answerboz != $questionOn["answer"]) return false
+		}
+	}
 	const check = () => {
-		if(answerboz == $questionOn["answer"]){
+		if(checkingAnswerLogic()){
 			questionStats.set(questionStatus.correct)
 		}else{
 			questionStats.set(questionStatus.wrong)
@@ -116,6 +132,13 @@
 				<span class="typehere">Type text here:</span>
 				<input type="text" name="" id="" class="answerbox" bind:value={answerboz}>
 			</div>
+		{:else if questionType == questionTypes.MatchingQuestion}
+			<div class="question">
+				<span class="questions">Question: Matching</span>
+				<span class="description">{$questionOn["question"]}</span>
+				<span class="typehere">Match:</span>
+				<Matching bind:choice={answerboz} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
+			</div>
 		{:else if questionType == questionTypes.SelectionQuestion}
 			<div class="question">
 				<span class="questions">Question: Click On you Answer</span>
@@ -127,7 +150,7 @@
 		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 	{:else if stats == questionStatus.forgot}
-		<div class="forgotPage">
+		<div class="forgotPage" out:fly={{x: 200, duration: 200}}>
 			<span class="forgotText">Going back later</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
@@ -136,7 +159,7 @@
 		</div>
 		<button class="next" on:click={next}>next</button>
 	{:else if stats == questionStatus.wrong}
-		<div class="wrongPage">
+		<div class="wrongPage" in:spin={{duration: 400}} out:fly={{x: 200, duration: 200}}>
 			<span class="wrongText">Wrong!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
@@ -145,7 +168,7 @@
 		</div>
 		<button class="next" on:click={again}>again</button>
 	{:else if stats == questionStatus.correct}
-		<div class="correctPage">
+		<div class="correctPage" out:fly={{x: 200, duration: 200}}>
 			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
@@ -157,7 +180,6 @@
 </main>
 <style lang="scss">
 	// Answering screen
-	$margin-question: 10vw;
 	.topbar {
 		width: 100vw;
 		background-color: #DDDDDD;
@@ -170,7 +192,7 @@
 	.question {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 13vh 20vh 5vh 13vh;
+		grid-template-rows: 7vh 20vh 5vh 19vh;
 	}
 
 	.wrongText{

@@ -7,11 +7,13 @@ export enum questionStatus {
 export enum pageType {
 	question,
 	home,
-	starter
+	starter,
+	update
 }
 export enum questionTypes {
 	LongQuestion = "long",
-	SelectionQuestion = "select"
+	SelectionQuestion = "select",
+	MatchingQuestion = "match"
 }
 export interface QuestionSample {
 	index: number,
@@ -26,11 +28,18 @@ export interface SelectionQuestioning extends QuestionSample{
 export interface LongQuestioning extends QuestionSample{
 	Type: questionTypes.LongQuestion
 }
-export type DifferentQuestion = SelectionQuestioning | LongQuestioning
+export interface MatchingQuestioning {
+	index: number,
+	question: string,
+	answer: string[][],
+	Type: questionTypes.MatchingQuestion,
+	matchA: string[],
+	matchB: string[]
+}
+export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning
 export interface courses {
 	index: number,
 	courseName: string,
 	ListQuestion: DifferentQuestion[],
-	progressFloat: number
 }
 export type coursearr = courses[]
