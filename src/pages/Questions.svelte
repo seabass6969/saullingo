@@ -237,6 +237,10 @@
 		background-color: $alert-color;
 		border: 0px;
 		@include boxshadow-btn-small;
+		@media (min-width: 810px){
+			margin-top: 1.5vw;
+			margin-left: 1.5vw;
+		}
 	}
 	.coursetitle{
 		margin-left: 15px;
