@@ -9,6 +9,7 @@
 	import { pageType, questionStatus, questionTypes} from "../lib/Question";
 	import { spin } from "../lib/animation";
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
+	import Reorder from "../components/Reorder.svelte";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
@@ -34,11 +35,28 @@
 			if(answerboz == $questionOn["answer"]) return true
 			if(answerboz != $questionOn["answer"]) return false
 		}else if (questionType == questionTypes.MatchingQuestion){
-			if(answerboz == $questionOn["answer"]) return true
-			if(answerboz != $questionOn["answer"]) return true
+			let index = 0
+			let corrected_times = 0
+			let suppose_times = $questionOn["answer"].length
+			answerboz.forEach(element=> {
+				if(element[1] == $questionOn["answer"][index][1]) {corrected_times++}
+				index++
+			});
+			if(corrected_times == suppose_times) return true
+			if(corrected_times != suppose_times) return false
 		}else if (questionType == questionTypes.SelectionQuestion){
 			if(answerboz == $questionOn["answer"]) return true
 			if(answerboz != $questionOn["answer"]) return false
+		}else if (questionType == questionTypes.ReorderQuestion){
+			let index = 0
+			let corrected_times = 0
+			let suppose_times = $questionOn["answer"].length
+			answerboz.forEach(element=> {
+				if(element == $questionOn["answer"][index]) {corrected_times++}
+				index++
+			});
+			if(corrected_times == suppose_times) return true
+			if(corrected_times != suppose_times) return false
 		}
 	}
 	const check = () => {
@@ -66,6 +84,7 @@
 		setingCompleting()
 		resetQuestionAskVAR()
 		changeQuestionOn()
+		console.log($questionOn)
 		questionStats.set(questionStatus.answer)
 		answerboz = ""
 		if(checkingIfAllQuestionDone() == true){
@@ -145,6 +164,13 @@
 				<span class="description">{$questionOn["question"]}</span>
 				<span class="typehere">click answer:</span>
 				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
+			</div>
+		{:else if questionType == questionTypes.ReorderQuestion}
+			<div class="question">
+				<span class="questions">Question: Reorder Answer</span>
+				<span class="description">{$questionOn["question"]}</span>
+				<span class="typehere">Reorder:</span>
+				<Reorder bind:choice={answerboz} option={$questionOn["selection"]}/>
 			</div>
 		{/if}
 		<button class="forgot" on:click={check} >Forgot</button>

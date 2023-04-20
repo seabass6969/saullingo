@@ -13,7 +13,8 @@ export enum pageType {
 export enum questionTypes {
 	LongQuestion = "long",
 	SelectionQuestion = "select",
-	MatchingQuestion = "match"
+	MatchingQuestion = "match",
+	ReorderQuestion = "reorder"
 }
 export interface QuestionSample {
 	index: number,
@@ -21,6 +22,13 @@ export interface QuestionSample {
 	answer: string
 }
 
+export interface ReorderQuestioning {
+	index: number,
+	question: string,
+	answer: string[]
+	Type: questionTypes.ReorderQuestion,
+	selection: string[],
+}
 export interface SelectionQuestioning extends QuestionSample{
 	Type: questionTypes.SelectionQuestion,
 	selection: string[],
@@ -36,7 +44,7 @@ export interface MatchingQuestioning {
 	matchA: string[],
 	matchB: string[]
 }
-export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning
+export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning | ReorderQuestioning
 export interface courses {
 	index: number,
 	courseName: string,
