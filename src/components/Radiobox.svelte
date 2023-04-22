@@ -31,5 +31,6 @@ radio_button_unchecked
         justify-content: left;
         border-style: solid;
         border-color: $base-color;
+        align-items: center;
     }
 </style>

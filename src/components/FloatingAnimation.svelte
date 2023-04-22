@@ -9,9 +9,8 @@
     <span class="floating" style="top: {genRandom(10,80)}vh; left: {genRandom(10,80)}vw;">🥳</span>
 {/each}
 {/if}
-<style>
+<style lang="scss">
     .floating {
         position: absolute;
-        
     }
 </style>

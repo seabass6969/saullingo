@@ -10,11 +10,13 @@
 	import { spin } from "../lib/animation";
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
 	import Reorder from "../components/Reorder.svelte";
+	import AnswerPreview from "../components/AnswerPreview.svelte";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
 	let questionType = questionTypes.LongQuestion
 	let answerboz
+	let clientWidth
 	const resetQuestionAskVAR = () => {
 		let questionAsked = []
 		let progressItems = JSON.parse(localStorage.getItem("progress"))
@@ -48,15 +50,19 @@
 			if(answerboz == $questionOn["answer"]) return true
 			if(answerboz != $questionOn["answer"]) return false
 		}else if (questionType == questionTypes.ReorderQuestion){
-			let index = 0
-			let corrected_times = 0
-			let suppose_times = $questionOn["answer"].length
-			answerboz.forEach(element=> {
-				if(element == $questionOn["answer"][index]) {corrected_times++}
-				index++
-			});
-			if(corrected_times == suppose_times) return true
-			if(corrected_times != suppose_times) return false
+			try {
+				let index = 0
+				let corrected_times = 0
+				let suppose_times = $questionOn["answer"].length
+				answerboz.forEach(element=> {
+					if(element == $questionOn["answer"][index]) {corrected_times++}
+					index++
+				});
+				if(corrected_times == suppose_times) return true
+				if(corrected_times != suppose_times) return false
+			} catch (error) {
+				return false
+			}
 		}
 	}
 	const check = () => {
@@ -132,6 +138,7 @@
 
 </script>
 <FloatingAnimation active={activeAnimation} />
+<svelte:window bind:innerWidth={clientWidth} />
 <main>
 	<div class="topbar">
 		<div class="inTest">
@@ -150,13 +157,23 @@
 				<span class="description">{$questionOn["question"]}</span>
 				<span class="typehere">Type text here:</span>
 				<input type="text" name="" id="" class="answerbox" bind:value={answerboz}>
+		<button class="forgot" on:click={check} >Forgot</button>
+		<button class="check" on:click={check}>Check</button>
 			</div>
 		{:else if questionType == questionTypes.MatchingQuestion}
-			<div class="question">
+			<div class="Matchquestion">
 				<span class="questions">Question: Matching</span>
 				<span class="description">{$questionOn["question"]}</span>
-				<span class="typehere">Match:</span>
+				<span class="typehere">Match
+					{#if clientWidth <= 815}
+						by pressing n swap
+					{:else}
+						by dragging
+					{/if}
+				:</span>
 				<Matching bind:choice={answerboz} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
+		<button class="forgot" on:click={check} >Forgot</button>
+		<button class="check" on:click={check}>Check</button>
 			</div>
 		{:else if questionType == questionTypes.SelectionQuestion}
 			<div class="question">
@@ -164,44 +181,46 @@
 				<span class="description">{$questionOn["question"]}</span>
 				<span class="typehere">click answer:</span>
 				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
+		<button class="forgot" on:click={check} >Forgot</button>
+		<button class="check" on:click={check}>Check</button>
 			</div>
 		{:else if questionType == questionTypes.ReorderQuestion}
 			<div class="question">
-				<span class="questions">Question: Reorder Answer</span>
+				<span class="questions">Question: Reorder Answer </span>
 				<span class="description">{$questionOn["question"]}</span>
 				<span class="typehere">Reorder:</span>
 				<Reorder bind:choice={answerboz} option={$questionOn["selection"]}/>
-			</div>
-		{/if}
 		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
-	{:else if stats == questionStatus.forgot}
+			</div>
+		{/if}
+	<!-- {:else if stats == questionStatus.forgot}
 		<div class="forgotPage" out:fly={{x: 200, duration: 200}}>
 			<span class="forgotText">Going back later</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">{$questionOn["answer"]}</div>
-		</div>
+			<AnswerPreview answer={$questionOn["answer"]} questionType={questionType} option={$questionOn["selection"]} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="next" on:click={next}>next</button>
+		</div> -->
 	{:else if stats == questionStatus.wrong}
-		<div class="wrongPage" in:spin={{duration: 400}} out:fly={{x: 200, duration: 200}}>
+		<div class="correctwrongPage" in:spin={{duration: 400}} out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
 			<span class="wrongText">Wrong!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">{$questionOn["answer"]}</div>
-		</div>
+			<AnswerPreview answer={$questionOn["answer"]} questionType={questionType} option={$questionOn["selection"]} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="next" on:click={again}>again</button>
+		</div>
 	{:else if stats == questionStatus.correct}
-		<div class="correctPage" out:fly={{x: 200, duration: 200}}>
+		<div class="correctwrongPage" out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
 			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{$questionOn["question"]}</span>
 			<span class="typehere">answer:</span>
-			<div class="answers">{$questionOn["answer"]}</div>
-		</div>
+			<AnswerPreview answer={$questionOn["answer"]} questionType={questionType} option={$questionOn["selection"]} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="next" on:click={next}>next</button>
+		</div>
 	{/if}
 </main>
 <style lang="scss">
@@ -215,10 +234,15 @@
 		grid-template-columns: auto;
 		grid-template-rows: 15vh 59vh 13vh 13vh;
 	}
+	.Matchquestion {
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 7vh 7vh 5vh 40vh 13vh 13vh;
+	}
 	.question {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 7vh 20vh 5vh 19vh;
+		grid-template-rows: 7vh 22vh 5vh 25vh 13vh 13vh;
 	}
 
 	.wrongText{
@@ -227,32 +251,21 @@
 		@include text-question;
 		color: $alert-color;
 	}
-	.wrongPage{
-		display: grid;
-		grid-template-columns: auto;
-		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
-	}
 	.correctText{
 		margin-left: $margin-question;
 		margin-top: 10px;
 		@include text-question;
 		color: $base-color;
 	}
-	.correctPage{
+	.correctwrongPage{
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
+		grid-template-rows: 6vh 7vh 22vh 5vh 25vh 13vh 13vh;
 	}
-	.forgotPage{
+	.matchcorrectwrongPage{
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 10vh 10vh 20vh 5vh 13vh;
-	}
-	.forgotText {
-		margin-left: $margin-question;
-		margin-top: 10px;
-		@include text-question;
-		color: red;
+		grid-template-rows: 6vh 7vh 7vh 5vh 43vh 13vh 13vh;
 	}
 	.close {
 		width: 45px;
@@ -326,12 +339,6 @@
 		margin-right: $margin-question;
 		border-style: none;
 		background: #9ED6FF;
-	}
-	.answers{
-		margin-left: $margin-question;
-		margin-right: $margin-question;
-		border-style: none;
-		background: #E6FF9E;
 	}
 	.next {
 		background-color: #E6FF9E;

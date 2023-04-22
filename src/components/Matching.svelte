@@ -3,6 +3,7 @@
 	export let matchA: string[];
 	export let matchB: string[];
 	let matchAmatchB = [];
+	let clientWidth
 	function genMatch() {
 		matchAmatchB = [];
 		let index = 0;
@@ -11,7 +12,6 @@
 			index += 1;
 		});
         choice = matchAmatchB
-        console.log(choice)
 	}
 	genMatch();
 	const leave = (event, index) => {
@@ -38,11 +38,28 @@
         matchB[index] = swapperB
         genMatch()
 	};
+	let movingA = -1
+	const movingabout = (index) => {
+		if(movingA == -1){
+			movingA = index
+		}else{
+			let swappingA = matchB[movingA]
+			let swappingB = matchB[index]
+			matchB[index] = swappingA
+			matchB[movingA] = swappingB
+			movingA = -1
+			genMatch()
+		}
+	}
 </script>
 
+<svelte:window bind:innerWidth={clientWidth}/>
 <div class="questionContainer">
 	{#each matchAmatchB as AB, index}
 		<div class="matchItem A">{AB[0]}</div>
+		 {#if clientWidth <= 815}
+		 	<button class="matchItem B" on:click={()=>movingabout(index)}>{AB[1]}</button>
+		 {:else}
 			<div
 				class="matchItem B"
 				draggable="true"
@@ -53,6 +70,7 @@
 			>
 				{AB[1]}
 			</div>
+		 {/if}
 	{/each}
 </div>
 

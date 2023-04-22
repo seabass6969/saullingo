@@ -97,10 +97,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		}
 	}
 	onMount(()=> {
-		selfBURNING()
 		if(checkNewUser() == true){
 			page.set(pageType.starter)
+			localStorage.setItem("version", courseItemVersion)
 		}
+		selfBURNING()
 		setLocalTime()
 	})
 </script>
