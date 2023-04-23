@@ -11,6 +11,7 @@
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
 	import Reorder from "../components/Reorder.svelte";
 	import AnswerPreview from "../components/AnswerPreview.svelte";
+	import Close from "../components/Close.svelte";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
@@ -142,7 +143,7 @@
 <main>
 	<div class="topbar">
 		<div class="inTest">
-			<button class="close" on:click={close}></button>
+			<Close on:click={close}/>
 			<BigProgressBar progressFloat={1}/>
 		</div>
 		<div class="titlebar">
@@ -156,7 +157,7 @@
 				<span class="questions">Question: Type your answer</span>
 				<span class="description">{$questionOn["question"]}</span>
 				<span class="typehere">Type text here:</span>
-				<input type="text" name="" id="" class="answerbox" bind:value={answerboz}>
+				<textarea name="" id="" class="answerbox" bind:value={answerboz}></textarea>
 		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 			</div>
@@ -267,24 +268,13 @@
 		grid-template-columns: auto;
 		grid-template-rows: 6vh 7vh 7vh 5vh 43vh 13vh 13vh;
 	}
-	.close {
-		width: 45px;
-		height: 45px;
-		border-radius: 10px;	
-		margin-top: 3vw;
-		margin-left: 3vw;
-		background-color: $alert-color;
-		border: 0px;
-		@include boxshadow-btn-small;
-		@media (min-width: 810px){
-			margin-top: 1.5vw;
-			margin-left: 1.5vw;
-		}
-	}
 	.coursetitle{
 		margin-left: 15px;
 		margin-top: 7px;
 		@include text-small;
+		@media (min-width: 810px){
+			margin-top: 24px;
+		}
 	}
 	.inTest {
 		display: grid;

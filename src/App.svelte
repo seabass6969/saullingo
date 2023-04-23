@@ -3,11 +3,12 @@
 	import { fly } from 'svelte/transition';
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
-	import { courseItem, courseItemVersion} from "./lib/CourseItem";
+	import { courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
 	//@ts-ignore
 	import { pageType } from "./lib/Question";
-	import { page, questionCouldAsked, questionOn } from "./lib/stores";
+	import { flashcardIndexOn, flashcardOn, page, questionCouldAsked, questionOn } from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
+	import Close from "./components/Close.svelte";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
@@ -100,6 +101,10 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			return false
 		}
 	}
+	const flashcard = (course) => {
+		flashcardIndexOn.set(course)
+		page.set(pageType.flashcard)
+	}
 	onMount(()=> {
 		if(checkNewUser() == true){
 			page.set(pageType.starter)
@@ -108,6 +113,24 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		selfBURNING()
 		setLocalTime()
 	})
+	const close = () => {
+		page.set(pageType.home)
+	}
+	const flashNext = () => {
+		if(courseFlashcard[$flashcardIndexOn].listFlashcard.length != ($flashcardOn + 1)){
+			flashcardOn.set($flashcardOn + 1)
+		}else{
+			flashcardOn.set(0)
+		}
+	}
+	let cardFront = true
+	const flipcard = () => {
+		if (cardFront) {
+			cardFront = false
+		} else {
+			cardFront = true 
+		}
+	}
 </script>
 {#if currentPage == pageType.home}
 <main transition:fly={{y:-200,duration: 400}}>
@@ -120,6 +143,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		{#each courseItem_In_DB as course, i}
 		  	{#if course.lesson == 0}
 				<span class="courseName" style="background-color: {course.themeColor}">{course.courseName}</span>
+				<button class="flashcard" on:click={()=> {flashcard(course.course)}}>Flashcard</button>
 			{/if}
 		 	<!-- {#if (course.index % 2) == 0}
 				<div class="gap"></div>
@@ -137,6 +161,24 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
   <div class="backgroundblur">
 		<button class="startnow" on:click={startnow}>start now</button>
   </div>
+{:else if currentPage == pageType.flashcard}
+<div class="flashcardPage">
+<div class="topFlash">
+	<Close on:click={close}/>
+	<div class="flashtitle">flashcard {courseFlashcard[$flashcardIndexOn].courseName}</div>
+</div>
+<br>
+{#if cardFront == true}
+	<button class="bigflashbtn" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}}>
+		{courseFlashcard[$flashcardIndexOn].listFlashcard[$flashcardOn].front}
+	</button>
+{:else}
+	<button class="bigflashbtn back" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}} >
+		{courseFlashcard[$flashcardIndexOn].listFlashcard[$flashcardOn].back}
+	</button>
+{/if}
+<button class="nextFlash" on:click={flashNext}>Next</button>
+</div>
 {:else if currentPage == pageType.update}
 <h1>Update</h1>
 <h2>Something is updating!!!</h2>
@@ -213,5 +255,36 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		margin-right: 3vw;
 		margin-top: 3vw;
 		font-style: italic;
+	}
+	.flashcard {
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		margin-top: 1vh;
+	}
+	.bigflashbtn {
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		height: 80vh;
+		width: 80vw;
+	}
+	.topFlash {
+		display: grid;
+		grid-template-columns: auto auto;
+		align-items: center;
+	}
+	.flashtitle {
+		@include text-xx
+	}
+	.back {
+		box-shadow: 10px 7px 0px $friendly-color !important;
+	}
+	.nextFlash {
+		margin-top: 4vh;
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		background-color: $friendly-color;
 	}
 </style>

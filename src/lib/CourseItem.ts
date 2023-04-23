@@ -1,5 +1,5 @@
 // l1q=["","Which of these is How are you: teni al neə (te-nee arl nair), neəni (nair-nee) or neə nɛlaweɪ (nair nel-ar-way)","Match up the words: 1-Hello, 2-Goodbye, 3-How are you  A-nɪneɪ (ni-nay), B-teni al neə (te-nee arl nair), C- neəni (nair-nee) Give your answer in this form (1A,2B,3C).","Match up the words: 1-How are you, 2-Good night, 3-Good Morning  A-neə nɛlaweɪ (nair nel-ar-way), B-teni al neə (te-nee arl nair), C- neə ɛɹæʒweɪ (nair e-raj-way) Give your answer in this form (1A,2B,3C).","How would you write How are you Kynan? (write your answer phonetically)","How would you write Good Morning Cyll (write your answer phonetically)","How would you write Hello Kynan, Goodbye Mimiër. (you may write your answer in IPA or phonetically)"]
-import { questionTypes, type coursearr} from "./Question";
+import { questionTypes, type coursearr, type Flashcard} from "./Question";
 export const courseItemVersion = "v3"
 export const courseItem: coursearr = [
 	{
@@ -9,6 +9,7 @@ export const courseItem: coursearr = [
 		course:0,
 		lesson: 0,
 		themeColor: "#cb7676",
+		optional: false,
 		ListQuestion: [
 			{
 				index: 0,
@@ -53,6 +54,7 @@ export const courseItem: coursearr = [
 		course:0,
 		lesson: 1,
 		themeColor: "#cb7676",
+		optional: false,
 		ListQuestion: [
 			{
 				index: 0,
@@ -69,6 +71,7 @@ export const courseItem: coursearr = [
 		course:1,
 		lesson: 0,
 		themeColor: "#e0a25c",
+		optional: true,
 		ListQuestion: [
 			{
 				index: 0,
@@ -85,6 +88,7 @@ export const courseItem: coursearr = [
 		course:1,
 		lesson: 1,
 		themeColor: "#e0a25c",
+		optional: true,
 		ListQuestion: [
 			{
 				index: 0,
@@ -101,6 +105,7 @@ export const courseItem: coursearr = [
 		course:2,
 		lesson: 0,
 		themeColor: "#e500f9",
+		optional: false,
 		ListQuestion: [
 			{
 				index: 0,
@@ -117,6 +122,7 @@ export const courseItem: coursearr = [
 		course:2,
 		lesson: 1,
 		themeColor: "#e500f9",
+		optional: false,
 		ListQuestion: [
 			{
 				index: 0,
@@ -127,3 +133,53 @@ export const courseItem: coursearr = [
 		],
 	},
 ];
+export const courseFlashcard: Flashcard[] =[
+	{
+		courseIndex: 0,
+		courseName: "Grammar/Structure of hɛɾɪnəʊ",
+		listFlashcard: [
+			{
+				lessonBasedOn: 0,
+				front: "correct Subject Object Verb order for hɛɾɪnəʊ?",
+				back: "VSO"
+			},
+			{
+				lessonBasedOn: 0,
+				front: "VSO meaning",
+				back: "verb subject object"
+			},
+		]
+	},
+	{
+		courseIndex: 1,
+		courseName: "Grammar/Structure of hɛɾɪnəʊ",
+		listFlashcard: [
+			{
+				lessonBasedOn: 0,
+				front: "abc",
+				back: "ABC"
+			},
+			{
+				lessonBasedOn: 0,
+				front: "bbc",
+				back: "BBC is media group"
+			},
+		]
+	},
+	{
+		courseIndex: 2,
+		courseName: "JJ singer",
+		listFlashcard: [
+			{
+				lessonBasedOn: 0,
+				front: "def",
+				back: "ddd"
+			},
+			{
+				lessonBasedOn: 0,
+				front: "aaa",
+				back: "aaa is just letter"
+			},
+		]
+	},
+]

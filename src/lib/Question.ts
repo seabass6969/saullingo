@@ -7,6 +7,7 @@ export enum questionStatus {
 export enum pageType {
 	question,
 	home,
+	flashcard,
 	starter,
 	update
 }
@@ -53,5 +54,16 @@ export interface courses {
 	lesson: number
 	ListQuestion: DifferentQuestion[],
 	themeColor: string
+	optional: boolean
 }
 export type coursearr = courses[]
+export interface Flashcard {
+	courseIndex: number,
+	courseName: string,
+	listFlashcard: FlashcardList[]
+}
+export interface FlashcardList {
+	lessonBasedOn: number,
+	front: string,
+	back: string
+}
