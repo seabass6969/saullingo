@@ -76,6 +76,16 @@ $margin-question: 8vw;
     font-weight: 800;
     font-size: 20px;
 }
+@mixin text-small{
+    font-family: 'Kaisei Tokumin';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 16px;
+	@media (min-width: 800px){
+        font-size: 20px
+	}
+}
 @mixin text-xx{
     font-family: 'Kaisei Tokumin';
     font-style: normal;
@@ -93,8 +103,6 @@ $margin-question: 8vw;
 @mixin bigbutton-style {
     margin-left:10vw;
     margin-right:10vw;
-    margin-top:3vh;
-    margin-bottom:3vh;
     width: 80vw;
     border-radius: 30px;
     border-color: none;

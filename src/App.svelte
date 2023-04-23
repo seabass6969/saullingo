@@ -3,7 +3,7 @@
 	import { fly } from 'svelte/transition';
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
-	import { EmptyProgressItem, courseItem, courseItemVersion} from "./lib/CourseItem";
+	import { courseItem, courseItemVersion} from "./lib/CourseItem";
 	//@ts-ignore
 	import { pageType } from "./lib/Question";
 	import { page, questionCouldAsked, questionOn } from "./lib/stores";
@@ -66,7 +66,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			});
 			progressItem.push({
 				index: element.index,
+				LessonName: element.LessonName,
+				courseName: element.courseName,
 				data: QuestionIndex,
+				course: element.course,
+				lesson: element.lesson,
 				completed: []
 			})
 		});
@@ -77,8 +81,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	if(localStorage.getItem('progress') == undefined){
 		console.log("new so creating it")
 		localStorage.setItem('progress', JSON.stringify(generateProgressItem()))
-	}else if (generateProgressItem() != JSON.parse(localStorage.getItem('progress'))){
-		console.log("not same")
+	// }else if (generateProgressItem() != JSON.parse(localStorage.getItem('progress'))){
+	// 	console.log("not same")
 	}else{
 		progressItems = JSON.parse(localStorage.getItem("progress"))
 	}
@@ -114,19 +118,25 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	</div>
 	<div class="maincontent">
 		{#each courseItem_In_DB as course, i}
-		 	{#if (course.index % 2) == 0}
-				<div class="gap"></div>
+		  	{#if course.lesson == 0}
+				<span class="courseName" style="background-color: {course.themeColor}">{course.courseName}</span>
 			{/if}
-			<div class="coursetext">{course.courseName}
+		 	<!-- {#if (course.index % 2) == 0}
+				<div class="gap"></div>
+			{/if} -->
+			<div class="coursetext">{course.LessonName}
 				<MiniProgressbar progressFloat={i}/>
 			</div>
-		 	{#if (course.index % 2) == 1}
+		 	<!-- {#if (course.index % 2) == 1}
 				<div class="gap"></div>
-			{/if}
+			{/if} -->
 		{/each}
+		<div class="bottom"></div>
 	</div>
-	<button class="startnow" on:click={startnow}>start now</button>
 </main>
+  <div class="backgroundblur">
+		<button class="startnow" on:click={startnow}>start now</button>
+  </div>
 {:else if currentPage == pageType.update}
 <h1>Update</h1>
 <h2>Something is updating!!!</h2>
@@ -156,7 +166,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	main {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 15vh 70vh 15vh;
+		grid-template-rows: 15vh 85vh;
 	}
 	.streak{
 		margin-left: 10px;
@@ -167,21 +177,41 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		@include bigbutton-style;
 		@include bigbutton-font;
 		@include boxshadow-btn;
+		height: 7vh;
+		margin-top: 0 !important; 
+		margin-bottom: 0 !important; 
+	}
+	.backgroundblur {
+		backdrop-filter: blur(5px);
+		position: absolute;
+		top: 90vh;
+		height: 10vh;
+		width: 100vw;
 	}
 	.coursetext {
 		margin-top: 3vh;
 		margin-left: 3vw;
 		@include text-x;
 	}
-	@media (min-width: 800px){
-	}
 	.maincontent {
 		display: grid;
-		grid-template-columns: auto auto ;
+		overflow-y: scroll;
+		height: 80vh
+		// grid-template-columns: auto auto ;
 	}
 	.startgo {
 		@include bigbutton-style;
 		@include bigbutton-font;
 		@include boxshadow-btn;
+	}
+	.bottom {
+		height: 10vh;
+	}
+	.courseName {
+		@include text-xx;
+		margin-left: 3vw;
+		margin-right: 3vw;
+		margin-top: 3vw;
+		font-style: italic;
 	}
 </style>

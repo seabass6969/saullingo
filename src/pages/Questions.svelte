@@ -146,7 +146,7 @@
 			<BigProgressBar progressFloat={1}/>
 		</div>
 		<div class="titlebar">
-			<span class="coursetitle">Course {$questionOnbyID[0]} - {courseItem[$questionOnbyID[0]].courseName}</span>
+			<span class="coursetitle"><span style="background-color: {courseItem[$questionOnbyID[0]].themeColor}">{courseItem[$questionOnbyID[0]].courseName}</span> - {courseItem[$questionOnbyID[0]].LessonName}</span>
 			<span class="progressNumber"></span>
 		</div>
 	</div>
@@ -188,7 +188,7 @@
 			<div class="question">
 				<span class="questions">Question: Reorder Answer </span>
 				<span class="description">{$questionOn["question"]}</span>
-				<span class="typehere">Reorder:</span>
+				<span class="typehere">Reorder by pressing on it:</span>
 				<Reorder bind:choice={answerboz} option={$questionOn["selection"]}/>
 		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
@@ -284,7 +284,7 @@
 	.coursetitle{
 		margin-left: 15px;
 		margin-top: 7px;
-		@include text-xx;
+		@include text-small;
 	}
 	.inTest {
 		display: grid;

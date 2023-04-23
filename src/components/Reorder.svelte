@@ -20,13 +20,20 @@
             <button  class="option" on:click={() => optionadd(opt)} disabled={choice.indexOf(opt) != -1} class:disabling={choice.indexOf(opt) != -1}>{opt}</button>
         {/each}
     </div>
-    <div class="choices">
+    <div class="choices" class:borderchoices={choice.length != 0}>
         {#each choice as c}
             <button in:fade={{duration: 1000}} class="answer" on:click={() => optionremove(c)}>{c}</button>
         {/each}
     </div>
 </div>
 <style lang="scss">
+    .borderchoices {
+        border-style: solid;
+        border-width: 2px;
+        border-radius: 6px;
+        border-color: $secondary-color;
+        margin-right: $margin-question;
+    }
     .reorder{
 		margin-left: $margin-question;
     }

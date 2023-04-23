@@ -47,7 +47,11 @@ export interface MatchingQuestioning {
 export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning | ReorderQuestioning
 export interface courses {
 	index: number,
+	LessonName: string,
 	courseName: string,
+	course: number,
+	lesson: number
 	ListQuestion: DifferentQuestion[],
+	themeColor: string
 }
 export type coursearr = courses[]

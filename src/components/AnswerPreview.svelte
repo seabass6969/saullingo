@@ -97,7 +97,7 @@
 		border-color: $base-color;
 	}
 	.red {
-		color: red;
+		color: green;
 	}
 
 	.questionContainer {

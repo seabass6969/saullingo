@@ -10,8 +10,6 @@
 		height: 10px;
 		background: $base-color;
 		border-radius: 10px;
-		margin-left: 3vw;
-		margin-right: 3vw;
 	}
 	.progressing {
 		width: 20vw;
