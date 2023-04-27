@@ -7,9 +7,9 @@
 		width: 35px;
 		height: 35px;
 		border-radius: 10px;	
-		margin-top: 2vw;
+		margin-top: 3.5vw;
 		margin-bottom: 2vw;
-		margin-left: 3vw;
+		margin-left: 1vw;
 		background-color: $friendly-color;
 		border: 0px;
 		@include boxshadow-btn-small;
@@ -18,6 +18,7 @@
             height: 45px;
             margin-bottom: 3vw;
             margin-top: 2vw;
+            margin-right: 1vw;
 		}
 	}
 </style>

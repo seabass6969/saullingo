@@ -1,4 +1,5 @@
 <script lang="ts">
+
 export let choice:string
 export let option:string[]
 let checkingBox = (ops) => {
@@ -7,7 +8,7 @@ let checkingBox = (ops) => {
 </script>
 <div class="radioboxe">
 {#each option as op}
-    <button on:click={() => {checkingBox(op)}} class="buttons"><span class="material-symbols-outlined">
+    <button on:click={() => {checkingBox(op)}} class="buttons" class:checkedbox={op == choice} ><span class="material-symbols-outlined" >
 {#if op == choice}
 radio_button_checked
 {:else}
@@ -32,5 +33,8 @@ radio_button_unchecked
         border-style: solid;
         border-color: $base-color;
         align-items: center;
+    }
+    .checkedbox {
+        border-color: $secondary-color;
     }
 </style>

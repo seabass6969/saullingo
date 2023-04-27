@@ -169,7 +169,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 <main transition:fly={{y:-200,duration: 400}}>
 	<div class="topbar">
 		<div class="topset">
+			<div>
 			<span class="title">Saullingo</span>
+			</div>
 			<Settingbtn on:click={settingsPage}/>
 			<Statisticbtn on:click={()=> {OpenDialog("Is just not there yet🚧")}}/>
 		</div>
@@ -256,8 +258,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	.title {
 		margin-left: 7px;
 		@media (min-width: 810px){
-			margin-top: 10px;
-			margin-left: 10px;
+			margin-top: 3vh;
+			margin-left: 2vw;
 		}
 		@include titlefont;
 	}
@@ -312,6 +314,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		margin-right: 3vw;
 		margin-top: 3vw;
 		font-style: italic;
+		padding: 4px;
+		border-radius: 5px;
 	}
 	.learn{
 		@include bigbutton-style;
@@ -381,10 +385,10 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 }
 .topset {
 	display: grid;
-	grid-template-columns: 60vw auto auto;
+	grid-template-columns: 65vw auto auto;
 
 	@media (min-width: 810px){
-		grid-template-columns: 80vw auto auto;
+		grid-template-columns: 85vw auto auto;
 	}
 }
 </style>
