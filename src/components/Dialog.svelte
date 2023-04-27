@@ -1,4 +1,5 @@
 <script>
+	import { fade } from "svelte/transition";
 	import { dropDown } from "../lib/animation";
     
     export let open = false
