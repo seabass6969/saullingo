@@ -12,6 +12,9 @@
 	import Reorder from "../components/Reorder.svelte";
 	import AnswerPreview from "../components/AnswerPreview.svelte";
 	import Close from "../components/Close.svelte";
+	import { IPA } from "../lib/IpaFont";
+	import TextArea from "../components/TextArea.svelte";
+	import { OpenDialog } from "../lib/DialogUtils";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
@@ -95,7 +98,7 @@
 		questionStats.set(questionStatus.answer)
 		answerboz = ""
 		if(checkingIfAllQuestionDone() == true){
-			alert("all are done for now")
+			OpenDialog("all are done for now")
 			page.set(pageType.home)
 		}
 	}
@@ -147,7 +150,7 @@
 			<BigProgressBar progressFloat={1}/>
 		</div>
 		<div class="titlebar">
-			<span class="coursetitle"><span style="background-color: {courseItem[$questionOnbyID[0]].themeColor}">{courseItem[$questionOnbyID[0]].courseName}</span> - {courseItem[$questionOnbyID[0]].LessonName}</span>
+			<span class="coursetitle"><span style="background-color: {courseItem[$questionOnbyID[0]].themeColor}">{@html IPA(courseItem[$questionOnbyID[0]].courseName)}</span> - {@html IPA(courseItem[$questionOnbyID[0]].LessonName)}</span>
 			<span class="progressNumber"></span>
 		</div>
 	</div>
@@ -155,16 +158,16 @@
 	 	{#if questionType == questionTypes.LongQuestion}
 			<div class="question">
 				<span class="questions">Question: Type your answer</span>
-				<span class="description">{$questionOn["question"]}</span>
+				<span class="description">{@html IPA($questionOn["question"])}</span>
 				<span class="typehere">Type text here:</span>
-				<textarea name="" id="" class="answerbox" bind:value={answerboz}></textarea>
+				<TextArea bind:choice={answerboz}/>
 		<button class="forgot" on:click={check} >Forgot</button>
 		<button class="check" on:click={check}>Check</button>
 			</div>
 		{:else if questionType == questionTypes.MatchingQuestion}
 			<div class="Matchquestion">
 				<span class="questions">Question: Matching</span>
-				<span class="description">{$questionOn["question"]}</span>
+				<span class="description">{@html IPA($questionOn["question"])}</span>
 				<span class="typehere">Match
 					{#if clientWidth <= 815}
 						by pressing n swap
@@ -179,7 +182,7 @@
 		{:else if questionType == questionTypes.SelectionQuestion}
 			<div class="question">
 				<span class="questions">Question: Click On you Answer</span>
-				<span class="description">{$questionOn["question"]}</span>
+				<span class="description">{@html IPA($questionOn["question"])}</span>
 				<span class="typehere">click answer:</span>
 				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
 		<button class="forgot" on:click={check} >Forgot</button>
@@ -188,7 +191,7 @@
 		{:else if questionType == questionTypes.ReorderQuestion}
 			<div class="question">
 				<span class="questions">Question: Reorder Answer </span>
-				<span class="description">{$questionOn["question"]}</span>
+				<span class="description">{@html IPA($questionOn["question"])}</span>
 				<span class="typehere">Reorder by pressing on it:</span>
 				<Reorder bind:choice={answerboz} option={$questionOn["selection"]}/>
 		<button class="forgot" on:click={check} >Forgot</button>
@@ -207,8 +210,7 @@
 	{:else if stats == questionStatus.wrong}
 		<div class="correctwrongPage" in:spin={{duration: 400}} out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
 			<span class="wrongText">Wrong!</span>
-			<span class="questions">Question: Type your answer</span>
-			<span class="description">{$questionOn["question"]}</span>
+			<span class="description">{@html IPA($questionOn["question"])}</span>
 			<span class="typehere">answer:</span>
 			<AnswerPreview answer={$questionOn["answer"]} questionType={questionType} option={$questionOn["selection"]} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="next" on:click={again}>again</button>
@@ -217,7 +219,7 @@
 		<div class="correctwrongPage" out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
 			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
-			<span class="description">{$questionOn["question"]}</span>
+			<span class="description">{@html IPA($questionOn["question"])}</span>
 			<span class="typehere">answer:</span>
 			<AnswerPreview answer={$questionOn["answer"]} questionType={questionType} option={$questionOn["selection"]} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="next" on:click={next}>next</button>
@@ -229,6 +231,8 @@
 	.topbar {
 		width: 100vw;
 		background-color: #DDDDDD;
+		border-radius: 0px 0px 30px 30px;
+		box-shadow: 2px 2px 51px -10px rgb(37,0,171);
 	}
 	main {
 		display: grid;
@@ -256,7 +260,8 @@
 		margin-left: $margin-question;
 		margin-top: 10px;
 		@include text-question;
-		color: $base-color;
+		color: $correct-color;
+		font-weight: bolder;
 	}
 	.correctwrongPage{
 		display: grid;
@@ -318,17 +323,7 @@
 	}
 	.typehere {
 		margin-left: $margin-question;
-		font-family: 'Kaisei Tokumin';
-		font-style: normal;
-		font-weight: 800;
-		font-size: 15px;
-		line-height: 22px;
-	}
-	.answerbox {
-		margin-left: $margin-question;
-		margin-right: $margin-question;
-		border-style: none;
-		background: #9ED6FF;
+		@include text-extra-small;
 	}
 	.next {
 		background-color: #E6FF9E;

@@ -3,12 +3,15 @@
 	import { fly } from 'svelte/transition';
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
-	import { courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
+	import { CourseLearn, courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
 	//@ts-ignore
-	import { pageType } from "./lib/Question";
-	import { flashcardIndexOn, flashcardOn, page, questionCouldAsked, questionOn } from "./lib/stores";
+	import { pageType, type Flashcard, type LearnSection } from "./lib/Question";
+	import { DialogOpen, DialogText, LearnIndexOn, flashcardIndexOn, flashcardOn, page, questionCouldAsked, questionOn } from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
 	import Close from "./components/Close.svelte";
+	import { IPA } from "./lib/IpaFont";
+	import Dialog from "./components/Dialog.svelte";
+	import { OpenDialog } from "./lib/DialogUtils";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
@@ -53,7 +56,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		if(checkIfAllComplete() == false){
 			page.set(pageType.question)
 		}else{
-			alert("sorry All your Task has complete")
+			OpenDialog("sorry All your Task has complete")	
 		}
 	} 
 	const home = () => page.set(pageType.home) 
@@ -102,8 +105,20 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		}
 	}
 	const flashcard = (course) => {
-		flashcardIndexOn.set(course)
-		page.set(pageType.flashcard)
+		if(courseFlashcard.filter((value) => value.courseIndex == course).length != 0){
+			flashcardIndexOn.set(course)
+			page.set(pageType.flashcard)
+		}else{
+			OpenDialog("Oh no! Seems like this Flashcard section is not there yet! 🚧")
+		}
+	}
+	const learnSection = (course) => {
+		if(CourseLearn.filter((value) => value.courseIndex == course).length != 0){
+			LearnIndexOn.set(course)
+			page.set(pageType.learn)
+		}else{
+			OpenDialog("Oh no! Seems like this Learn section is not there yet! 🚧")
+		}
 	}
 	onMount(()=> {
 		if(checkNewUser() == true){
@@ -131,7 +146,19 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			cardFront = true 
 		}
 	}
+	const filterlearncourse = (indexgiven):LearnSection=> {
+		return CourseLearn.filter((value) => value.courseIndex == indexgiven)[0]
+	}
+	const filtercourseFlash = (indexgiven):Flashcard => {
+		return courseFlashcard.filter((value) => value.courseIndex == indexgiven)[0]
+	}
+	const courseFilter = (LessonIndex) => {
+		return courseItem.filter((val) => val.course== LessonIndex)
+	}
 </script>
+<Dialog bind:open={$DialogOpen}>
+	<h1>{$DialogText}</h1>
+</Dialog>
 {#if currentPage == pageType.home}
 <main transition:fly={{y:-200,duration: 400}}>
 	<div class="topbar">
@@ -142,18 +169,19 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	<div class="maincontent">
 		{#each courseItem_In_DB as course, i}
 		  	{#if course.lesson == 0}
-				<span class="courseName" style="background-color: {course.themeColor}">{course.courseName}</span>
-				<button class="flashcard" on:click={()=> {flashcard(course.course)}}>Flashcard</button>
+				<span class="courseName" style="background-color: {course.themeColor}">{@html IPA(course.courseName)}</span>
+				<div class="flashlearn">
+					<button class="flashcard" on:click={()=> {flashcard(course.course)}}>Flashcard</button>
+					<button class="learn" on:click={()=> {learnSection(course.course)}}>Learn</button>
+				</div>
+				<div class="courseSection">
+					{#each courseFilter(course.lesson) as cours, x}
+						<div class="coursetext">{@html IPA(cours.LessonName)}
+							<MiniProgressbar progressFloat={i+x}/>
+						</div>
+					{/each}
+				</div>
 			{/if}
-		 	<!-- {#if (course.index % 2) == 0}
-				<div class="gap"></div>
-			{/if} -->
-			<div class="coursetext">{course.LessonName}
-				<MiniProgressbar progressFloat={i}/>
-			</div>
-		 	<!-- {#if (course.index % 2) == 1}
-				<div class="gap"></div>
-			{/if} -->
 		{/each}
 		<div class="bottom"></div>
 	</div>
@@ -161,20 +189,32 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
   <div class="backgroundblur">
 		<button class="startnow" on:click={startnow}>start now</button>
   </div>
+{:else if currentPage == pageType.learn}
+<div class="flashcardPage">
+<div class="topFlash">
+	<Close on:click={close}/>
+	<div class="flashtitle">learn {@html IPA(filtercourseFlash($flashcardIndexOn).courseName)}</div>
+</div>
+<br>
+<br>
+<div class="learnText">
+	{@html IPA(filterlearncourse($LearnIndexOn).learn)}
+</div>
+</div>
 {:else if currentPage == pageType.flashcard}
 <div class="flashcardPage">
 <div class="topFlash">
 	<Close on:click={close}/>
-	<div class="flashtitle">flashcard {courseFlashcard[$flashcardIndexOn].courseName}</div>
+		<div class="flashtitle">flashcard {@html IPA(filtercourseFlash($flashcardIndexOn).courseName)}</div>
 </div>
 <br>
 {#if cardFront == true}
 	<button class="bigflashbtn" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}}>
-		{courseFlashcard[$flashcardIndexOn].listFlashcard[$flashcardOn].front}
+		{@html IPA(filtercourseFlash($flashcardIndexOn).listFlashcard[$flashcardOn].front)}
 	</button>
 {:else}
 	<button class="bigflashbtn back" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}} >
-		{courseFlashcard[$flashcardIndexOn].listFlashcard[$flashcardOn].back}
+		{@html IPA(filtercourseFlash($flashcardIndexOn).listFlashcard[$flashcardOn].back)}
 	</button>
 {/if}
 <button class="nextFlash" on:click={flashNext}>Next</button>
@@ -199,6 +239,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	.topbar {
 		width: 100vw;
 		background-color: #DDDDDD;
+		border-radius: 0px 0px 30px 30px;
+		box-shadow: 2px 2px 51px -10px rgb(37,0,171);
 	}
 	.title {
 		margin-top: 10px;
@@ -238,6 +280,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	.maincontent {
 		display: grid;
 		overflow-y: scroll;
+		overflow-x: none;
 		height: 80vh
 		// grid-template-columns: auto auto ;
 	}
@@ -256,11 +299,25 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		margin-top: 3vw;
 		font-style: italic;
 	}
+	.learn{
+		@include bigbutton-style;
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		margin-top: 1vh;
+		width: 40vw;
+		margin-left: 5vw;
+		margin-right: 5vw;
+		background-color: $friendly-color;
+	}
 	.flashcard {
 		@include bigbutton-style;
 		@include bigbutton-font;
 		@include boxshadow-btn;
 		margin-top: 1vh;
+		width: 40vw;
+		margin-left: 5vw;
+		margin-right: 5vw;
+		background-color: $correct-color;
 	}
 	.bigflashbtn {
 		@include bigbutton-style;
@@ -287,4 +344,22 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		@include boxshadow-btn;
 		background-color: $friendly-color;
 	}
+.courseSection {
+	display: grid;
+	grid-template-columns: auto auto;
+}
+.flashlearn {
+	display: grid;
+	grid-template-columns: auto auto;
+}
+.learnText {
+	@include text-x;
+	margin-left: $margin-question;
+	margin-right: $margin-question;
+	border-style: solid;
+	border-width: 5px;
+	border-radius: 30px;
+	border-color: $friendly-color;
+	padding: 10px;
+}
 </style>

@@ -5,6 +5,7 @@ export enum questionStatus {
 	correct
 }
 export enum pageType {
+	learn,
 	question,
 	home,
 	flashcard,
@@ -66,4 +67,10 @@ export interface FlashcardList {
 	lessonBasedOn: number,
 	front: string,
 	back: string
+}
+
+export interface LearnSection{
+	courseIndex: number,
+	courseName: string
+	learn: string
 }

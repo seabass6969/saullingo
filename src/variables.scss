@@ -1,12 +1,16 @@
 /* Variables and mixins declared here will be available in all other SCSS files */
-$base-color: #00B347;
-$secondary-color: #0036F8;
+// $base-color: #00B347;
+$base-color: #b9b9b9;
+// $secondary-color: #0036F8;
+$secondary-color: #F2CF66;
 $alert-color: #FF0000;
-$friendly-color: #F800BA;
+$friendly-color: #ff8ee3;
+$correct-color: #34be49;
 $margin-question: 8vw;
 
 @mixin bigbutton-font {
-    font-family: 'Kaisei Tokumin';
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 800;
     font-size: 25px;
@@ -61,25 +65,28 @@ $margin-question: 8vw;
     }
 }
 @mixin titlefont {
-    font-family: 'Kadwa';
+    // font-family: 'Kadwa';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 30px;
     line-height: 60px;
 
-    background: linear-gradient(90deg, $secondary-color 0%, #9DD5FF 100%);
+    background: linear-gradient(90deg, $secondary-color -20%, #1298ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 @mixin text-x{
-    font-family: 'Kaisei Tokumin';
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 800;
     font-size: 20px;
 }
 @mixin text-small{
-    font-family: 'Kaisei Tokumin';
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 15px;
@@ -89,14 +96,24 @@ $margin-question: 8vw;
 	}
 }
 @mixin text-xx{
-    font-family: 'Kaisei Tokumin';
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 25px;
     line-height: 36px;
 }
+@mixin text-extra-small {
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 22px;
+}
 @mixin text-question {
-    font-family: 'Kaisei Tokumin';
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 21px;
