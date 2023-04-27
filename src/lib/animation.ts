@@ -11,3 +11,12 @@ export function spin(node, { duration }) {
         }
     };
 }
+export function dropDown(node, { duration }) {
+    return {
+        duration,
+        css: t => {
+            const eased = elasticOut(t);
+            return `transform: translateY(${eased*50}px)`
+        }
+    };
+}

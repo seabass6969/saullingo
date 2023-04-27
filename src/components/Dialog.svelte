@@ -1,12 +1,13 @@
 <script>
-    import { onMount } from "svelte";
+	import { dropDown } from "../lib/animation";
+    
     export let open = false
     const closer = () => {
         open = false
     }
 </script>
 {#if open == true}
-    <dialog class="dialogbox"> 
+    <dialog class="dialogbox" in:dropDown={{duration: 1000}} out:fade> 
         <slot></slot>
         <button class="continu" on:click={closer}>OK</button>
     </dialog>
@@ -16,7 +17,8 @@
         background: rgb(42,100,192);
         background: radial-gradient(circle, rgba(42,100,192,1) 0%, rgba(255,255,243,1) 0%, rgba(246,255,240,1) 48%, rgba(255,239,254,1) 100%); 
         border-color: dimgrey;
-        animation: forwards 400ms moveopen;
+        transform: translateY(50px);
+        // animation: forwards 400ms moveopen;
         width: 80vw;
         display: flex;
         align-items: center;
@@ -24,10 +26,10 @@
     }
     @keyframes moveopen {
         0%{
-            transform: scale(0.1,0.1) rotate(180deg);
+            transform: translateY(-200px);
         }
         100%{
-            transform: scale(1,1);
+            transform: translateY(0px);
         }
     }
     .continu {

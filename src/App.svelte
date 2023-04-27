@@ -56,7 +56,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		if(checkIfAllComplete() == false){
 			page.set(pageType.question)
 		}else{
-			OpenDialog("sorry All your Task has complete")	
+			OpenDialog("sorry All your Task has complete 🙅")	
 		}
 	} 
 	const home = () => page.set(pageType.home) 
@@ -323,8 +323,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		@include bigbutton-style;
 		@include bigbutton-font;
 		@include boxshadow-btn;
-		height: 80vh;
+		height: 70vh;
 		width: 80vw;
+		@media (min-width: 800px){
+			height: 80vh;
+		}
 	}
 	.topFlash {
 		display: grid;
@@ -332,7 +335,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		align-items: center;
 	}
 	.flashtitle {
-		@include text-xx
+		@include text-x;
 	}
 	.back {
 		box-shadow: 10px 7px 0px $friendly-color !important;

@@ -94,7 +94,6 @@
 		setingCompleting()
 		resetQuestionAskVAR()
 		changeQuestionOn()
-		console.log($questionOn)
 		questionStats.set(questionStatus.answer)
 		answerboz = ""
 		if(checkingIfAllQuestionDone() == true){

@@ -82,7 +82,10 @@ $margin-question: 8vw;
     font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 15px;
+	@media (min-width: 800px){
+        font-size: 20px;
+    }
 }
 @mixin text-small{
     // font-family: 'Kaisei Tokumin';
