@@ -3,7 +3,7 @@
 	let localStorageITEM = JSON.parse(localStorage.getItem("progress"))[progressFloat]
 	let progress = localStorageITEM.completed.length / localStorageITEM.data.length
 </script>
-<div class="progressbarback"><div class="progressing" style="width: calc({progress}*40vw)"></div></div>
+<div class="progressbarback"><div class="progressing" style="width: calc({progress}*40vw)" ></div></div>
 <style lang="scss">
 	.progressbarback{
 		width: 40vw;

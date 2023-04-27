@@ -175,7 +175,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 					<button class="learn" on:click={()=> {learnSection(course.course)}}>Learn</button>
 				</div>
 				<div class="courseSection">
-					{#each courseFilter(course.lesson) as cours, x}
+					{#each courseFilter(course.course) as cours, x}
 						<div class="coursetext">{@html IPA(cours.LessonName)}
 							<MiniProgressbar progressFloat={i+x}/>
 						</div>
