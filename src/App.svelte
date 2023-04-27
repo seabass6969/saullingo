@@ -12,6 +12,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import { IPA } from "./lib/IpaFont";
 	import Dialog from "./components/Dialog.svelte";
 	import { OpenDialog } from "./lib/DialogUtils";
+	import Settingbtn from "./components/Settingbtn.svelte";
+	import Statisticbtn from "./components/Statisticbtn.svelte";
+	import Settings from "./pages/Settings.svelte";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
@@ -155,6 +158,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	const courseFilter = (LessonIndex) => {
 		return courseItem.filter((val) => val.course== LessonIndex)
 	}
+	const settingsPage = () => {
+		page.set(pageType.settings)
+	}
 </script>
 <Dialog bind:open={$DialogOpen}>
 	<h1>{$DialogText}</h1>
@@ -162,9 +168,12 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 {#if currentPage == pageType.home}
 <main transition:fly={{y:-200,duration: 400}}>
 	<div class="topbar">
-		<span class="title">Saullingo</span>
-		<br>
-		<span class="streak">Day streak: {dayStreak}</span>
+		<div class="topset">
+			<span class="title">Saullingo</span>
+			<Settingbtn on:click={settingsPage}/>
+			<Statisticbtn on:click={()=> {OpenDialog("Is just not there yet🚧")}}/>
+		</div>
+		<!-- <span class="streak">Day streak: {dayStreak}</span> -->
 	</div>
 	<div class="maincontent">
 		{#each courseItem_In_DB as course, i}
@@ -231,6 +240,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 <div transition:fly={{y: 200, duration: 400}}>
 <Questions />
 </div>
+{:else if currentPage == pageType.settings}
+	<Settings />
 {:else}
 <h1>ERROR ERROR </h1>
 {/if}
@@ -243,8 +254,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		box-shadow: 2px 2px 51px -10px rgb(37,0,171);
 	}
 	.title {
-		margin-top: 10px;
-		margin-left: 10px;
+		margin-left: 7px;
+		@media (min-width: 810px){
+			margin-top: 10px;
+			margin-left: 10px;
+		}
 		@include titlefont;
 	}
 	main {
@@ -364,5 +378,13 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	border-radius: 30px;
 	border-color: $friendly-color;
 	padding: 10px;
+}
+.topset {
+	display: grid;
+	grid-template-columns: 60vw auto auto;
+
+	@media (min-width: 810px){
+		grid-template-columns: 80vw auto auto;
+	}
 }
 </style>

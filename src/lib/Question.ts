@@ -5,12 +5,22 @@ export enum questionStatus {
 	correct
 }
 export enum pageType {
+	settings,
 	learn,
 	question,
 	home,
 	flashcard,
 	starter,
 	update
+}
+export enum alertType {
+	simple,
+	confirm
+}
+export enum alertconfirmType {
+	no,
+	yes,
+	waiting
 }
 export enum questionTypes {
 	LongQuestion = "long",
