@@ -202,11 +202,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		<div class="topset">
 			{#if clientWidth < 810}
 				<Menubtn on:click={()=> {navbarOpen.set(true)}}/>
-			{/if}
 			<img src="/favicon.svg" alt="" class="logo">
 			<div>
 			<span class="title">Saullingo</span>
 			</div>
+			{/if}
 		</div>
 		<!-- <span class="streak">Day streak: {dayStreak}</span> -->
 		<span class="welcome">Welcome! {timeText()} <img src={emojiText()} alt="" class="welcomeemoji"></span>
@@ -303,6 +303,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: 20vh 80vh;
+		@media (min-width: 810px){
+			grid-template-rows: 10vh 90vh;
+		}
 	}
 	.streak{
 		margin-left: 10px;
@@ -343,7 +346,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		box-shadow: 0px -2px 51px 0px #848484;
 		padding-top: 5vh;
 		@media (min-width: 810px){
-			height: 75vh;
+			height: 80vh;
 			width: 78.9vw;
 			overflow-x: scroll;
 		}
@@ -445,7 +448,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	justify-items: left;
 	height: 13vh;
 	@media (min-width: 810px){
-		grid-template-columns: 5vw 5vw 70vw ;
+		// grid-template-columns: 5vw 5vw 70vw ;
+		height: 2vh;
 	}
 }
 .logo {
