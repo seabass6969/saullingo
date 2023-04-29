@@ -69,6 +69,9 @@ $margin-question: 8vw;
     font-family: 'Quicksand', sans-serif;
     font-style: normal;
     font-weight: 700;
+	@media (min-width: 800px){
+font-size: 25px;
+    }
     font-size: 30px;
     line-height: 60px;
 

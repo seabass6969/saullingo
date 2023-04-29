@@ -9,7 +9,8 @@
 		border-radius: 10px;	
 		// margin-top: 3.5vw;
 		// margin-bottom: 2vw;
-		margin-left: 1vw;
+		margin-left: 3vw;
+        margin-top: -1vh;
 		background-color: $friendly-color;
 		border: 0px;
 		@include boxshadow-btn-small;

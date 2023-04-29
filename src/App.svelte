@@ -15,7 +15,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import Settings from "./pages/Settings.svelte";
 	import Menubtn from "./components/Menubtn.svelte";
 	import Navbar from "./components/navbar.svelte";
-	import { typewriter } from "./lib/animation";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0

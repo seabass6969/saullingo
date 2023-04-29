@@ -8,7 +8,7 @@
 {#if clientWidth < 810}
 	<div class="progressbarback"><div class="progressing" style="width: calc({progress}*40vw)" ></div></div>
 {:else}
-	<div class="progressbarback small"><div class="progressing small" style="width: calc({progress}*20vw)" ></div></div>
+	<div class="progressbarback small"><div class="progressing small" style="width: calc({progress}*30vw)" ></div></div>
 {/if}
 <style lang="scss">
 	.progressbarback{
@@ -24,6 +24,6 @@
 		border-radius: 10px;
 	}
 	.small {
-		width: 20vw;
+		width: 30vw;
 	}
 </style>
