@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { fly } from 'svelte/transition';
+	import { fly, slide } from 'svelte/transition';
 	import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import { CourseLearn, courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
@@ -15,6 +15,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import Settings from "./pages/Settings.svelte";
 	import Menubtn from "./components/Menubtn.svelte";
 	import Navbar from "./components/navbar.svelte";
+	import { typewriter } from "./lib/animation";
 	let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
@@ -209,7 +210,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			{/if}
 		</div>
 		<!-- <span class="streak">Day streak: {dayStreak}</span> -->
-		<span class="welcome">Welcome! {timeText()} <img src={emojiText()} alt="" class="welcomeemoji"></span>
+		<span class="welcome" >Welcome! {timeText()} <img src={emojiText()} alt="" class="welcomeemoji"></span>
 	</div>
 	<div class="maincontent">
 		{#each courseItem_In_DB as course, i}
