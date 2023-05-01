@@ -22,7 +22,7 @@
 </script>
 <svelte:window bind:innerWidth={clientWidth} />
 <div class="navback">
-    <div class="leftnav" in:slide={{duration: 300}} out:slide={{duration: 300}}>
+    <div class="leftnav" in:slide={{duration: 300, axis: "x"}} out:slide={{duration: 300, axis: "x"}}>
         {#if clientWidth > 810}
             <div class="topset">
                 <img src="/favicon.svg" alt="" class="logo">

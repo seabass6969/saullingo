@@ -36,6 +36,7 @@
 	// import StartNow from "./components/StartNow.old.svelte";
 	import StartNowExp from "./components/StartNowEXP.svelte";
 	import ExpandContent from "./components/ExpandContent.svelte";
+	import { typewriter } from "./lib/animation";
 	let currentPage: pageType = pageType.home;
 	page.subscribe((value) => (currentPage = value));
 	let dayStreak = 0;
@@ -195,9 +196,9 @@
 					{/if}
 				</div>
 				<!-- <span class="streak">Day streak: {dayStreak}</span> -->
-				<span class="welcome"
-					>Welcome! {timeText()}
-					<img src={emojiText()} alt="" class="welcomeemoji" /></span
+				<span class="welcome" 
+					><span in:typewriter={{speed:0.9}}>Welcome! {timeText()}</span> <img src={emojiText()} alt="" class="welcomeemoji" />
+					</span
 				>
 			</div>
 			<div class="maincontent">

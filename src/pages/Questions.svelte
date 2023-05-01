@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly } from "svelte/transition";
+	import { fly, slide } from "svelte/transition";
 	import BigProgressBar from "../components/BigProgressBar.svelte";
 	import FloatingAnimation from "../components/FloatingAnimation.svelte";
 	import Matching from "../components/Matching.svelte";
@@ -143,7 +143,7 @@
 <FloatingAnimation active={activeAnimation} />
 <svelte:window bind:innerWidth={clientWidth} />
 <main>
-	<div class="topbar">
+	<div class="topbar" transition:slide={{duration: 500}}>
 		<div class="inTest">
 			<Close on:click={close}/>
 			<BigProgressBar progressFloat={1}/>
