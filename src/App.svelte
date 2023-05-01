@@ -43,20 +43,20 @@
 	let clientWidth = 0;
 
 	const generateTabItem = ():Tab[] => {
-		let result: Tab[]
+		let results: Tab[] = []
 		let previousEle=-1
 		courseItem.forEach(element => {
 			if(element.course != previousEle){
 				previousEle = element.course
-				result.push({
+				results.push({
 					courseIndex: element.course,
 					closed: true
 				})
 			}
 		});
-		return result
+		return results
 	}
-	let closedTabs:Tab[] = generateProgressItem()
+	let closedTabs:Tab[] = generateTabItem()
 
 	questionCouldAsked.subscribe((value) => (questionCouldAskedSub = value));
 	const selfBURNING = () => {
