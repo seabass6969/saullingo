@@ -225,7 +225,10 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	// }
 	.startnow {
 		background: $base-color;
-		@include bigbutton-style;	font-size: 20px;
+		@include bigbutton-style;	
+		@include bigbutton-font;
+		@include boxshadow-btn;
+		font-size: 25px;
 		height: 7vh;
 		margin-top: 0 !important; 
 		margin-bottom: 0 !important; 

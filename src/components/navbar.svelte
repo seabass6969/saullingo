@@ -21,27 +21,28 @@
     let clientWidth = 0
 </script>
 <svelte:window bind:innerWidth={clientWidth} />
-<div class="leftnav" in:slide={{duration: 300}} out:slide={{duration: 300}}>
-    {#if clientWidth > 810}
-        <div class="topset">
-            <img src="/favicon.svg" alt="" class="logo">
-            <div>
-            <span class="title">Saullingo</span>
+<div class="navback">
+    <div class="leftnav" in:slide={{duration: 300}} out:slide={{duration: 300}}>
+        {#if clientWidth > 810}
+            <div class="topset">
+                <img src="/favicon.svg" alt="" class="logo">
+                <div>
+                <span class="title">Saullingo</span>
+                </div>
             </div>
-        </div>
-    {/if}
-    {#if clientWidth < 810}
-        <Close on:click={closes}/>
-    {/if}
-    <Settingbtn on:click={settingsPage}/>
-    <Statisticbtn on:click={statisticPage}/>
+        {/if}
+        {#if clientWidth < 810}
+            <Close on:click={closes}/>
+        {/if}
+        <Settingbtn on:click={settingsPage}/>
+        <Statisticbtn on:click={statisticPage}/>
+    </div>
 </div>
 <style lang="scss">
     .leftnav {
         z-index: 9;
         height: 100vh;
         background-color: $base-color;
-        backdrop-filter: blur(5px);
 		border-radius: 0px 35px 35px 0px;
         display: grid;
         grid-template-rows: repeat(3, 12vh);
@@ -49,11 +50,22 @@
         padding-left: 2vw;
         padding-right: 4vw;
         width: 36vw;
-        position: fixed;
+        // position: fixed;
 		@media (min-width: 810px){
             width: 15vw;
-            position: relative;
+            // position: relative;
             min-width: 15vw;
+        }
+    }
+    .navback {
+        z-index: 9;
+        height: 100vh;
+        width: 100vw;
+        backdrop-filter: blur(5px);
+        position: fixed;
+		@media (min-width: 810px){
+            position: relative;
+            width: 30vw;
         }
     }
 .topset {
