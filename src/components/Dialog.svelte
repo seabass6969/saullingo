@@ -2,7 +2,7 @@
 	import { fade } from "svelte/transition";
 	import { dropDown } from "../lib/animation";
 	import { AlertBoxType, DialogConform } from "../lib/stores";
-	import { alertType, alertconfirmType } from "../lib/Question";
+	import { alertType, alertconfirmType } from "../lib/TQuestion";
     
     export let open = false
     const closer = () => {
@@ -46,6 +46,7 @@
         grid-template-columns: 70% 30%;
         align-items: center;
         justify-content: center;
+        z-index: 13;
     }
     @keyframes moveopen {
         0%{

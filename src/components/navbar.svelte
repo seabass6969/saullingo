@@ -1,7 +1,7 @@
 <script>
 	import { slide } from "svelte/transition";
 	import { OpenDialog } from "../lib/DialogUtils";
-	import { pageType } from "../lib/Question";
+	import { pageType } from "../lib/TQuestion";
 	import { navbarOpen, page } from "../lib/stores";
 	import Close from "./Close.svelte";
 	import Settingbtn from "./Settingbtn.svelte";
@@ -21,7 +21,7 @@
     let clientWidth = 0
 </script>
 <svelte:window bind:innerWidth={clientWidth} />
-<div class="leftnav" in:slide={{duration: 1000}} out:slide={{duration: 1000}}>
+<div class="leftnav" in:slide={{duration: 300}} out:slide={{duration: 300}}>
     {#if clientWidth > 810}
         <div class="topset">
             <img src="/favicon.svg" alt="" class="logo">
@@ -38,7 +38,7 @@
 </div>
 <style lang="scss">
     .leftnav {
-        z-index: 999;
+        z-index: 9;
         height: 100vh;
         background-color: $base-color;
         backdrop-filter: blur(5px);

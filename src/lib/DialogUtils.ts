@@ -1,4 +1,4 @@
-import { alertType, alertconfirmType } from "./Question"
+import { alertType, alertconfirmType } from "./TQuestion"
 import { DialogConform, DialogOpen, DialogText, AlertBoxType} from "./stores"
 
 function waitChange(){

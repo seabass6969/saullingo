@@ -1,7 +1,7 @@
 <script>
     import Close from "../components/Close.svelte";
 	import { OpenDialogConform } from "../lib/DialogUtils";
-	import { alertconfirmType, pageType } from "../lib/Question";
+	import { alertconfirmType, pageType } from "../lib/TQuestion";
 	import { page } from "../lib/stores";
 	const close = () => {
 		page.set(pageType.home)

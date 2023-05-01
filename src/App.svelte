@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { fly, slide } from 'svelte/transition';
-	import BigProgressBar from "./components/BigProgressBar.svelte";
+	import { fly } from 'svelte/transition';
+	// import BigProgressBar from "./components/BigProgressBar.svelte";
 import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import { CourseLearn, courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
 	//@ts-ignore
-	import { pageType, type Flashcard, type LearnSection } from "./lib/Question";
-	import { DialogOpen, DialogText, LearnIndexOn, flashcardIndexOn, flashcardOn, navbarOpen, page, questionCouldAsked, questionOn } from "./lib/stores";
+	import { pageType, type Flashcard, } from "./lib/TQuestion";
+	import { DialogOpen, DialogText, flashcardIndexOn, flashcardOn, navbarOpen, page, questionCouldAsked} from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
 	import Close from "./components/Close.svelte";
 	import { IPA } from "./lib/IpaFont";
@@ -15,7 +15,11 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import Settings from "./pages/Settings.svelte";
 	import Menubtn from "./components/Menubtn.svelte";
 	import Navbar from "./components/navbar.svelte";
-	let currentPage:pageType = pageType.home
+	import { emojiText, timeText } from "./lib/TimeUtil";
+	import { PageSwitchFlashcard, PageSwitchLearnSection, home } from "./lib/PageUtil";
+	import Learn from "./pages/Learn.svelte";
+	import Flashcardpage from "./pages/Flashcardpage.svelte";
+		let currentPage:pageType = pageType.home
 	page.subscribe(value => currentPage = value)
 	let dayStreak = 0
 	let questionCouldAskedSub 
@@ -63,7 +67,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			OpenDialog("sorry All your Task has complete 🙅")	
 		}
 	} 
-	const home = () => page.set(pageType.home) 
 	
 	function generateProgressItem(){
 		let progressItem = []
@@ -108,22 +111,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			return false
 		}
 	}
-	const flashcard = (course) => {
-		if(courseFlashcard.filter((value) => value.courseIndex == course).length != 0){
-			flashcardIndexOn.set(course)
-			page.set(pageType.flashcard)
-		}else{
-			OpenDialog("Oh no! Seems like this Flashcard section is not there yet! 🚧")
-		}
-	}
-	const learnSection = (course) => {
-		if(CourseLearn.filter((value) => value.courseIndex == course).length != 0){
-			LearnIndexOn.set(course)
-			page.set(pageType.learn)
-		}else{
-			OpenDialog("Oh no! Seems like this Learn section is not there yet! 🚧")
-		}
-	}
 	onMount(()=> {
 		if(checkNewUser() == true){
 			page.set(pageType.starter)
@@ -132,57 +119,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		selfBURNING()
 		setLocalTime()
 	})
-	const close = () => {
-		page.set(pageType.home)
-	}
-	const flashNext = () => {
-		if(courseFlashcard[$flashcardIndexOn].listFlashcard.length != ($flashcardOn + 1)){
-			flashcardOn.set($flashcardOn + 1)
-		}else{
-			flashcardOn.set(0)
-		}
-	}
-	let cardFront = true
-	const flipcard = () => {
-		if (cardFront) {
-			cardFront = false
-		} else {
-			cardFront = true 
-		}
-	}
-	const filterlearncourse = (indexgiven):LearnSection=> {
-		return CourseLearn.filter((value) => value.courseIndex == indexgiven)[0]
-	}
-	const filtercourseFlash = (indexgiven):Flashcard => {
-		return courseFlashcard.filter((value) => value.courseIndex == indexgiven)[0]
-	}
 	const courseFilter = (LessonIndex) => {
 		return courseItem.filter((val) => val.course== LessonIndex)
-	}
-	enum GreetingTime {
-		morning = "Good Morning",
-		afternoon = "Good Afternoon",
-		night = "Good Night"
-	}
-	const timeText = ():GreetingTime => {
-		let date = new Date()
-		if (date.getHours() <= 11 && date.getHours() >= 6){
-			return GreetingTime.morning
-		}else if (date.getHours() >= 11 && date.getHours() <= 18){
-			return GreetingTime.afternoon
-		}else {
-			return GreetingTime.night
-		}
-	}
-	const emojiText = () => {
-		let times = timeText()
-		if(times == GreetingTime.morning){
-			return "/emoji/happy.png"
-		}else if(times == GreetingTime.afternoon){
-			return "/emoji/sun.png"
-		}else if(times == GreetingTime.night){
-			return "/emoji/night.png"
-		}
 	}
 </script>
 <svelte:window bind:innerWidth={clientWidth} />
@@ -216,8 +154,8 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		  	{#if course.lesson == 0}
 				<span class="courseName" style="background-color: {course.themeColor}">{@html IPA(course.courseName)}</span>
 				<div class="flashlearn">
-					<button class="flashcard" on:click={()=> {flashcard(course.course)}}>Flashcard</button>
-					<button class="learn" on:click={()=> {learnSection(course.course)}}>Learn</button>
+					<button class="flashcard" on:click={()=> {PageSwitchFlashcard(course.course)}}>Flashcard</button>
+					<button class="learn" on:click={()=> {PageSwitchLearnSection(course.course)}}>Learn</button>
 				</div>
 				<div class="courseSection">
 					{#each courseFilter(course.course) as cours, x}
@@ -237,35 +175,9 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		<button class="startnow" on:click={startnow}>start now</button>
   </div>
 {:else if currentPage == pageType.learn}
-<div class="flashcardPage">
-<div class="topFlash">
-	<Close on:click={close}/>
-	<div class="flashtitle">learn {@html IPA(filtercourseFlash($flashcardIndexOn).courseName)}</div>
-</div>
-<br>
-<br>
-<div class="learnText">
-	{@html IPA(filterlearncourse($LearnIndexOn).learn)}
-</div>
-</div>
+<Learn/>
 {:else if currentPage == pageType.flashcard}
-<div class="flashcardPage">
-<div class="topFlash">
-	<Close on:click={close}/>
-		<div class="flashtitle">flashcard {@html IPA(filtercourseFlash($flashcardIndexOn).courseName)}</div>
-</div>
-<br>
-{#if cardFront == true}
-	<button class="bigflashbtn" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}}>
-		{@html IPA(filtercourseFlash($flashcardIndexOn).listFlashcard[$flashcardOn].front)}
-	</button>
-{:else}
-	<button class="bigflashbtn back" on:click={flipcard} transition:fly={{y: -100, x: -100, duration:200}} >
-		{@html IPA(filtercourseFlash($flashcardIndexOn).listFlashcard[$flashcardOn].back)}
-	</button>
-{/if}
-<button class="nextFlash" on:click={flashNext}>Next</button>
-</div>
+<Flashcardpage />
 {:else if currentPage == pageType.update}
 <h1>Update</h1>
 <h2>Something is updating!!!</h2>
@@ -307,15 +219,13 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			grid-template-rows: 10vh 90vh;
 		}
 	}
-	.streak{
-		margin-left: 10px;
-		@include text-x;
-	}
+	// .streak{
+	// 	margin-left: 10px;
+	// 	@include text-x;
+	// }
 	.startnow {
 		background: $base-color;
-		@include bigbutton-style;
-		@include bigbutton-font;
-		@include boxshadow-btn;
+		@include bigbutton-style;	font-size: 20px;
 		height: 7vh;
 		margin-top: 0 !important; 
 		margin-bottom: 0 !important; 
@@ -394,35 +304,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 			width: 20vw;
 		}
 	}
-	.bigflashbtn {
-		@include bigbutton-style;
-		@include bigbutton-font;
-		@include boxshadow-btn;
-		height: 70vh;
-		width: 80vw;
-		@media (min-width: 800px){
-			height: 80vh;
-		}
-	}
-	.topFlash {
-		display: grid;
-		grid-template-columns: 10% 90%;
-		align-items: center;
-		justify-items: center;
-	}
-	.flashtitle {
-		@include text-x;
-	}
-	.back {
-		box-shadow: 10px 7px 0px $friendly-color !important;
-	}
-	.nextFlash {
-		margin-top: 4vh;
-		@include bigbutton-style;
-		@include bigbutton-font;
-		@include boxshadow-btn;
-		background-color: $friendly-color;
-	}
 .courseSection {
 	display: grid;
 	grid-template-columns: auto auto;
@@ -430,16 +311,6 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 .flashlearn {
 	display: grid;
 	grid-template-columns: auto auto;
-}
-.learnText {
-	@include text-x;
-	margin-left: $margin-question;
-	margin-right: $margin-question;
-	border-style: solid;
-	border-width: 5px;
-	border-radius: 30px;
-	border-color: $friendly-color;
-	padding: 10px;
 }
 .topset {
 	display: grid;
@@ -465,6 +336,10 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	@include text-xx;
 	display:flex;
 	align-items: center;
+	font-size: 20px;
+	@media (min-width: 810px){
+		font-size: 25px;
+	}
 }
 .welcomeemoji {
 	margin-left: 1vw;

@@ -6,7 +6,7 @@
 	import Radiobox from "../components/Radiobox.svelte";
 	import { courseItem } from "../lib/CourseItem";
 	//@ts-ignore
-	import { pageType, questionStatus, questionTypes} from "../lib/Question";
+	import { pageType, questionStatus, questionTypes} from "../lib/TQuestion";
 	import { spin } from "../lib/animation";
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
 	import Reorder from "../components/Reorder.svelte";

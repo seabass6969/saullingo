@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 //@ts-ignore
-import { alertType, alertconfirmType, pageType, questionStatus} from "./Question.ts";
+import { alertType, alertconfirmType, pageType, questionStatus} from "./TQuestion.js";
 
 export const page = writable(pageType.home)
 export const questionStats = writable(questionStatus.answer)

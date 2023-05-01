@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { questionTypes } from "../lib/Question";
+	import { questionTypes } from "../lib/TQuestion";
 
 	export let questionType: questionTypes;
 	export let answer;
