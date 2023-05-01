@@ -33,7 +33,7 @@
 	} from "./lib/PageUtil";
 	import Learn from "./pages/Learn.svelte";
 	import Flashcardpage from "./pages/Flashcardpage.svelte";
-	import StartNow from "./components/StartNow.svelte";
+	// import StartNow from "./components/StartNow.old.svelte";
 	import StartNowExp from "./components/StartNowEXP.svelte";
 	import ExpandContent from "./components/ExpandContent.svelte";
 	let currentPage: pageType = pageType.home;
