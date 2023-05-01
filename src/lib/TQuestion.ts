@@ -82,5 +82,13 @@ export interface FlashcardList {
 export interface LearnSection{
 	courseIndex: number,
 	courseName: string
-	learn: string
+	ByLesson: {
+		lessonIndex:number,
+		lessonName:string,
+		learn:string
+	}[]
+}
+export interface Tab {
+	courseIndex: number,
+	closed: boolean
 }

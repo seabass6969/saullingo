@@ -1,4 +1,7 @@
-<button on:click class="startnow"><img src="/start now.svg" alt=""></button>
+<script>
+	import { fade } from "svelte/transition";
+</script>
+<button on:click class="startnow"><img src="/start now.svg" alt="" out:fade in:fade></button>
 <style lang="scss">
 .startnow {
         background-color: transparent;

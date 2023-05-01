@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { fade, fly } from "svelte/transition";
+	import { fade, fly, slide } from "svelte/transition";
 	// import BigProgressBar from "./components/BigProgressBar.svelte";
 	import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import {
@@ -8,7 +8,7 @@
 		courseItemVersion,
 	} from "./lib/CourseItem";
 	//@ts-ignore
-	import { pageType } from "./lib/TQuestion";
+	import { pageType, type Tab } from "./lib/TQuestion";
 	import {
 		DialogOpen,
 		DialogText,
@@ -35,11 +35,29 @@
 	import Flashcardpage from "./pages/Flashcardpage.svelte";
 	import StartNow from "./components/StartNow.svelte";
 	import StartNowExp from "./components/StartNowEXP.svelte";
+	import ExpandContent from "./components/ExpandContent.svelte";
 	let currentPage: pageType = pageType.home;
 	page.subscribe((value) => (currentPage = value));
 	let dayStreak = 0;
 	let questionCouldAskedSub;
 	let clientWidth = 0;
+
+	const generateTabItem = ():Tab[] => {
+		let result: Tab[]
+		let previousEle=-1
+		courseItem.forEach(element => {
+			if(element.course != previousEle){
+				previousEle = element.course
+				result.push({
+					courseIndex: element.course,
+					closed: true
+				})
+			}
+		});
+		return result
+	}
+	let closedTabs:Tab[] = generateProgressItem()
+
 	questionCouldAsked.subscribe((value) => (questionCouldAskedSub = value));
 	const selfBURNING = () => {
 		if (
@@ -188,23 +206,22 @@
 						<span
 							class="courseName"
 							style="background-color: {course.themeColor}"
-							>{@html IPA(course.courseName)}</span
-						>
+							>{@html IPA(course.courseName)}</span>
 						<div class="flashlearn">
 							<button
 								class="flashcard"
 								on:click={() => {
 									PageSwitchFlashcard(course.course);
-								}}>Flashcard</button
-							>
+								}}>Flashcard</button>
 							<button
 								class="learn"
 								on:click={() => {
 									PageSwitchLearnSection(course.course);
-								}}>Learn</button
-							>
+								}}>Learn</button>
 						</div>
-						<div class="courseSection">
+						<ExpandContent bind:closedTabs={closedTabs} course={course}/>
+						{#if closedTabs[course.course].closed == false}
+						<div class="courseSection" in:slide out:slide>
 							{#each courseFilter(course.course) as cours, x}
 								<div class="coursetext">
 									{@html IPA(cours.LessonName)}
@@ -212,6 +229,7 @@
 								</div>
 							{/each}
 						</div>
+						{/if}
 					{/if}
 				{/each}
 				<div class="bottom" />

@@ -19,9 +19,12 @@
 </div>
 <br>
 <br>
+	{#each filterlearncourse($LearnIndexOn).ByLesson as lesson}
+<span class="titles">{@html IPA(lesson.lessonName)}</span>
 <div class="learnText">
-	{@html IPA(filterlearncourse($LearnIndexOn).learn)}
+		{@html IPA(lesson.learn)}
 </div>
+	{/each}
 </div>
 <style lang="scss">
 	.flashtitle {
@@ -42,5 +45,11 @@
 	border-radius: 30px;
 	border-color: $friendly-color;
 	padding: 10px;
+}
+.titles {
+	margin-left: $margin-question;
+	margin-right: $margin-question;
+	text-decoration: underline;
+	@include text-xx
 }
 </style>

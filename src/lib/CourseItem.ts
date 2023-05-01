@@ -187,6 +187,9 @@ export const CourseLearn: LearnSection[] = [
 	{
 		courseIndex: 0,
 		courseName: "Grammar/Structure of <ipa>hɛɾɪnəʊ</ipa>",
-		learn: "Before you get started learning any words you must first learn the structure of <ipa>hɛɾɪnəʊ</ipa>. This first lesson is on SOV and sentence structure.<br>SOV stands for Subject, Object, Verb and tells you in what order the sentence is written. In english we use SVO for example “I ate the apple” however in <ipa>hɛɾɪnəʊ</ipa> you would write “ate I the apple” as this is in VSO the order that <ipa>hɛɾɪnəʊ</ipa> uses.<br>When writing sentences in this order, split them into phrases, for example “I like eating bread and I like eating toast” is “like eating I bread and like eating I toast”. This sentence also shows that when using two verbs next to one another they both go at the beginning of the phrase.<br>One more thing to note <ipa>hɛɾɪnəʊ</ipa> has no words for “a” or “the” so make sure not to type these!<br>"
+		ByLesson: 
+		[
+			{lessonIndex:0,lessonName:"SOV and other structure",learn:"Before you get started learning any words you must first learn the structure of <ipa>hɛɾɪnəʊ</ipa>. This first lesson is on SOV and sentence structure.<br>SOV stands for Subject, Object, Verb and tells you in what order the sentence is written. In english we use SVO for example “I ate the apple” however in <ipa>hɛɾɪnəʊ</ipa> you would write “ate I the apple” as this is in VSO the order that <ipa>hɛɾɪnəʊ</ipa> uses.<br>When writing sentences in this order, split them into phrases, for example “I like eating bread and I like eating toast” is “like eating I bread and like eating I toast”. This sentence also shows that when using two verbs next to one another they both go at the beginning of the phrase.<br>One more thing to note <ipa>hɛɾɪnəʊ</ipa> has no words for “a” or “the” so make sure not to type these!<br>"}
+		]
 	}
 ]
