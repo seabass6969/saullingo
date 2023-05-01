@@ -42,7 +42,10 @@
     .leftnav {
         z-index: 9;
         height: 100vh;
-        background-color: $base-color;
+background: linear-gradient(145deg, #f0f0f0, #cacaca);
+box-shadow:  20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+        // background-color: $base-color;
 		border-radius: 0px 35px 35px 0px;
         display: grid;
         grid-template-rows: repeat(3, 12vh);
@@ -50,6 +53,7 @@
         padding-left: 2vw;
         padding-right: 4vw;
         width: 36vw;
+        box-shadow: 2px 0px 60px -1px rgba(0,0,0,0.6);
         // position: fixed;
 		@media (min-width: 810px){
             width: 15vw;

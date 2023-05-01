@@ -1,14 +1,24 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from "svelte/transition";
 	// import BigProgressBar from "./components/BigProgressBar.svelte";
-import MiniProgressbar from "./components/MiniProgressbar.svelte";
-	import { CourseLearn, courseFlashcard, courseItem, courseItemVersion} from "./lib/CourseItem";
+	import MiniProgressbar from "./components/MiniProgressbar.svelte";
+	import {
+		courseItem,
+		courseItemVersion,
+	} from "./lib/CourseItem";
 	//@ts-ignore
-	import { pageType, type Flashcard, } from "./lib/TQuestion";
-	import { DialogOpen, DialogText, flashcardIndexOn, flashcardOn, navbarOpen, page, questionCouldAsked} from "./lib/stores";
+	import { pageType } from "./lib/TQuestion";
+	import {
+		DialogOpen,
+		DialogText,
+		flashcardIndexOn,
+		flashcardOn,
+		navbarOpen,
+		page,
+		questionCouldAsked,
+	} from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
-	import Close from "./components/Close.svelte";
 	import { IPA } from "./lib/IpaFont";
 	import Dialog from "./components/Dialog.svelte";
 	import { OpenDialog } from "./lib/DialogUtils";
@@ -16,64 +26,76 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	import Menubtn from "./components/Menubtn.svelte";
 	import Navbar from "./components/navbar.svelte";
 	import { emojiText, timeText } from "./lib/TimeUtil";
-	import { PageSwitchFlashcard, PageSwitchLearnSection, home } from "./lib/PageUtil";
+	import {
+		PageSwitchFlashcard,
+		PageSwitchLearnSection,
+		home,
+	} from "./lib/PageUtil";
 	import Learn from "./pages/Learn.svelte";
 	import Flashcardpage from "./pages/Flashcardpage.svelte";
-		let currentPage:pageType = pageType.home
-	page.subscribe(value => currentPage = value)
-	let dayStreak = 0
-	let questionCouldAskedSub 
-	let clientWidth = 0
-	questionCouldAsked.subscribe(value => questionCouldAskedSub = value)
+	import StartNow from "./components/StartNow.svelte";
+	import StartNowExp from "./components/StartNowEXP.svelte";
+	let currentPage: pageType = pageType.home;
+	page.subscribe((value) => (currentPage = value));
+	let dayStreak = 0;
+	let questionCouldAskedSub;
+	let clientWidth = 0;
+	questionCouldAsked.subscribe((value) => (questionCouldAskedSub = value));
 	const selfBURNING = () => {
-		if((localStorage.getItem("version") == undefined) || (localStorage.getItem("version") != courseItemVersion)){
-			console.log("destorying old content")
-			localStorage.clear()
-			localStorage.setItem("version", courseItemVersion)
-			location.reload()
+		if (
+			localStorage.getItem("version") == undefined ||
+			localStorage.getItem("version") != courseItemVersion
+		) {
+			console.log("destorying old content");
+			localStorage.clear();
+			localStorage.setItem("version", courseItemVersion);
+			location.reload();
 		}
-	}
+	};
 	const checkIfAllComplete = () => {
-		let iFComplete = 0
-		questionCouldAskedSub.forEach(element => {
-			if(element[0] == undefined){
-				iFComplete += 1
+		let iFComplete = 0;
+		questionCouldAskedSub.forEach((element) => {
+			if (element[0] == undefined) {
+				iFComplete += 1;
 			}
 		});
-		if(questionCouldAskedSub.length == iFComplete){
-			return true
-		}else{
-			return false
+		if (questionCouldAskedSub.length == iFComplete) {
+			return true;
+		} else {
+			return false;
 		}
-		
-	}
+	};
 	const resetQuestionAskVAR = () => {
-		let questionAsked = []
-		let progressItemsINlocalStorage = JSON.parse(localStorage.getItem("progress"))
-		progressItemsINlocalStorage.forEach(element => {
-			let inCompleteindex = element.data
-			element.completed.forEach(els => {
-				inCompleteindex = inCompleteindex.filter(value => value != els)
+		let questionAsked = [];
+		let progressItemsINlocalStorage = JSON.parse(
+			localStorage.getItem("progress")
+		);
+		progressItemsINlocalStorage.forEach((element) => {
+			let inCompleteindex = element.data;
+			element.completed.forEach((els) => {
+				inCompleteindex = inCompleteindex.filter(
+					(value) => value != els
+				);
 			});
-			questionAsked.push(inCompleteindex)
+			questionAsked.push(inCompleteindex);
 		});
-		questionCouldAsked.set(questionAsked)
-	}
+		questionCouldAsked.set(questionAsked);
+	};
 	const startnow = () => {
-		resetQuestionAskVAR()
-		if(checkIfAllComplete() == false){
-			page.set(pageType.question)
-		}else{
-			OpenDialog("sorry All your Task has complete 🙅")	
+		resetQuestionAskVAR();
+		if (checkIfAllComplete() == false) {
+			page.set(pageType.question);
+		} else {
+			OpenDialog("sorry All your Task has complete 🙅");
 		}
-	} 
-	
-	function generateProgressItem(){
-		let progressItem = []
-		courseItem.forEach(element => {
-			let QuestionIndex = []
-			element.ListQuestion.forEach(ele => {
-				QuestionIndex.push(ele.index)
+	};
+
+	function generateProgressItem() {
+		let progressItem = [];
+		courseItem.forEach((element) => {
+			let QuestionIndex = [];
+			element.ListQuestion.forEach((ele) => {
+				QuestionIndex.push(ele.index);
 			});
 			progressItem.push({
 				index: element.index,
@@ -82,130 +104,157 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 				data: QuestionIndex,
 				course: element.course,
 				lesson: element.lesson,
-				completed: []
-			})
+				completed: [],
+			});
 		});
-		return progressItem
+		return progressItem;
 	}
-	let progressItems  
+	let progressItems;
 
-	if(localStorage.getItem('progress') == undefined){
-		console.log("new so creating it")
-		localStorage.setItem('progress', JSON.stringify(generateProgressItem()))
-	// }else if (generateProgressItem() != JSON.parse(localStorage.getItem('progress'))){
-	// 	console.log("not same")
-	}else{
-		progressItems = JSON.parse(localStorage.getItem("progress"))
+	if (localStorage.getItem("progress") == undefined) {
+		console.log("new so creating it");
+		localStorage.setItem(
+			"progress",
+			JSON.stringify(generateProgressItem())
+		);
+		// }else if (generateProgressItem() != JSON.parse(localStorage.getItem('progress'))){
+		// 	console.log("not same")
+	} else {
+		progressItems = JSON.parse(localStorage.getItem("progress"));
 	}
 
 	// let courseItem_In_DB = JSON.parse(localStorage.getItem("data"))
-	let courseItem_In_DB = courseItem
+	let courseItem_In_DB = courseItem;
 	const setLocalTime = () => {
-		const currentTime = (new Date().valueOf()).toString()
-		localStorage.setItem("lastLogin", currentTime)
-	}
+		const currentTime = new Date().valueOf().toString();
+		localStorage.setItem("lastLogin", currentTime);
+	};
 	const checkNewUser = () => {
-		if (localStorage.getItem("lastLogin") == undefined){
-			return true
-		}else{
-			return false
+		if (localStorage.getItem("lastLogin") == undefined) {
+			return true;
+		} else {
+			return false;
 		}
-	}
-	onMount(()=> {
-		if(checkNewUser() == true){
-			page.set(pageType.starter)
-			localStorage.setItem("version", courseItemVersion)
+	};
+	onMount(() => {
+		if (checkNewUser() == true) {
+			page.set(pageType.starter);
+			localStorage.setItem("version", courseItemVersion);
 		}
-		selfBURNING()
-		setLocalTime()
-	})
+		selfBURNING();
+		setLocalTime();
+	});
 	const courseFilter = (LessonIndex) => {
-		return courseItem.filter((val) => val.course== LessonIndex)
-	}
+		return courseItem.filter((val) => val.course == LessonIndex);
+	};
 </script>
+
 <svelte:window bind:innerWidth={clientWidth} />
 <Dialog bind:open={$DialogOpen}>
 	<h1>{$DialogText}</h1>
 </Dialog>
-{#if $navbarOpen == true }
+{#if $navbarOpen == true}
 	<Navbar />
 {/if}
 {#if currentPage == pageType.home}
-<div class="full">
-{#if clientWidth > 810}
-	<Navbar />
-{/if}
-<main transition:fly={{y:-200,duration: 400}}>
-	<div class="topbar">
-		<div class="topset">
-			{#if clientWidth < 810}
-				<Menubtn on:click={()=> {navbarOpen.set(true)}}/>
-			<img src="/favicon.svg" alt="" class="logo">
-			<div>
-			<span class="title">Saullingo</span>
-			</div>
-			{/if}
-		</div>
-		<!-- <span class="streak">Day streak: {dayStreak}</span> -->
-		<span class="welcome" >Welcome! {timeText()} <img src={emojiText()} alt="" class="welcomeemoji"></span>
-	</div>
-	<div class="maincontent">
-		{#each courseItem_In_DB as course, i}
-		  	{#if course.lesson == 0}
-				<span class="courseName" style="background-color: {course.themeColor}">{@html IPA(course.courseName)}</span>
-				<div class="flashlearn">
-					<button class="flashcard" on:click={()=> {PageSwitchFlashcard(course.course)}}>Flashcard</button>
-					<button class="learn" on:click={()=> {PageSwitchLearnSection(course.course)}}>Learn</button>
-				</div>
-				<div class="courseSection">
-					{#each courseFilter(course.course) as cours, x}
-						<div class="coursetext">{@html IPA(cours.LessonName)}
-							<MiniProgressbar progressFloat={i+x}/>
+	<div class="full">
+		{#if clientWidth > 810}
+			<Navbar />
+		{/if}
+		<main transition:fly={{ y: -200, duration: 400 }}>
+			<div class="topbar">
+				<div class="topset">
+					{#if clientWidth < 810}
+						<Menubtn
+							on:click={() => {
+								navbarOpen.set(true);
+							}}
+						/>
+						<img src="/favicon.svg" alt="" class="logo" />
+						<div>
+							<span class="title">Saullingo</span>
 						</div>
-					{/each}
+					{/if}
 				</div>
-			{/if}
-		{/each}
-		<div class="bottom"></div>
+				<!-- <span class="streak">Day streak: {dayStreak}</span> -->
+				<span class="welcome"
+					>Welcome! {timeText()}
+					<img src={emojiText()} alt="" class="welcomeemoji" /></span
+				>
+			</div>
+			<div class="maincontent">
+				{#each courseItem_In_DB as course, i}
+					{#if course.lesson == 0}
+						<span
+							class="courseName"
+							style="background-color: {course.themeColor}"
+							>{@html IPA(course.courseName)}</span
+						>
+						<div class="flashlearn">
+							<button
+								class="flashcard"
+								on:click={() => {
+									PageSwitchFlashcard(course.course);
+								}}>Flashcard</button
+							>
+							<button
+								class="learn"
+								on:click={() => {
+									PageSwitchLearnSection(course.course);
+								}}>Learn</button
+							>
+						</div>
+						<div class="courseSection">
+							{#each courseFilter(course.course) as cours, x}
+								<div class="coursetext">
+									{@html IPA(cours.LessonName)}
+									<MiniProgressbar progressFloat={i + x} />
+								</div>
+							{/each}
+						</div>
+					{/if}
+				{/each}
+				<div class="bottom" />
+			</div>
+		</main>
 	</div>
-</main>
-	
-</div>
-  <div class="backgroundblur">
-		<button class="startnow" on:click={startnow}>start now</button>
-  </div>
+	<div class="backgroundblur">
+		<StartNowExp on:click={startnow}/>
+		<!-- <StartNow on:click={startnow}/> -->
+	</div>
 {:else if currentPage == pageType.learn}
-<Learn/>
+	<Learn />
 {:else if currentPage == pageType.flashcard}
-<Flashcardpage />
+	<Flashcardpage />
 {:else if currentPage == pageType.update}
-<h1>Update</h1>
-<h2>Something is updating!!!</h2>
-<button on:click={home} class="startgo">goooo back</button>
+	<h1>Update</h1>
+	<h2>Something is updating!!!</h2>
+	<button on:click={home} class="startgo">goooo back</button>
 {:else if currentPage == pageType.starter}
-<h1>welcome to saullingo</h1>
-<h2>saullingo is the gateway to language learning</h2>
-<button on:click={home} class="startgo">Lets goooo</button>
+	<h1 class="starterA">welcome to saullingo</h1>
+	<h2 class="starterA">saullingo is the gateway to language learning</h2>
+	<button on:click={home} class="startgo">Lets goooo</button>
 {:else if currentPage == pageType.question}
-<div transition:fly={{y: 200, duration: 400}}>
-<Questions />
-</div>
+	<div transition:fly={{ y: 200, duration: 400 }}>
+		<Questions />
+	</div>
 {:else if currentPage == pageType.settings}
 	<Settings />
 {:else}
-<h1>ERROR ERROR </h1>
+	<h1>ERROR ERROR</h1>
 {/if}
+
 <style lang="scss">
 	// home screen
 	.topbar {
 		width: 100vw;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			width: 79vw;
 		}
 	}
 	.title {
 		margin-left: 7px;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			margin-top: 2vh;
 			margin-left: 2vw;
 		}
@@ -215,7 +264,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: 20vh 80vh;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			grid-template-rows: 10vh 90vh;
 		}
 	}
@@ -223,28 +272,15 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 	// 	margin-left: 10px;
 	// 	@include text-x;
 	// }
-	.startnow {
-		background: $base-color;
-		@include bigbutton-style;	
-		@include bigbutton-font;
-		@include boxshadow-btn;
-		font-size: 25px;
-		height: 7vh;
-		margin-top: 0 !important; 
-		margin-bottom: 0 !important; 
-		@media (min-width: 810px){
-			margin-left: 30vw;
-			margin-right: 10vw;
-			width: 60vw;
-		}
-	}
 	.backgroundblur {
 		backdrop-filter: blur(5px);
 		position: fixed;
 		top: 90vh;
 		height: 10vh;
 		width: 100vw;
-	}
+	display: flex;
+justify-content: center;
+align-items: center;}
 	.coursetext {
 		margin-top: 3vh;
 		margin-left: 3vw;
@@ -254,16 +290,16 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		display: grid;
 		height: 80vh;
 		// grid-template-columns: auto auto ;
-		background-color: #DDDDDD;
+		background-color: #dddddd;
 		border-radius: 65px 65px 0px 0px;
 		box-shadow: 0px -2px 51px 0px #848484;
 		padding-top: 5vh;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			height: 80vh;
 			width: 78.9vw;
 			overflow-x: scroll;
 		}
-}
+	}
 	.startgo {
 		@include bigbutton-style;
 		@include bigbutton-font;
@@ -281,7 +317,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		padding: 4px;
 		border-radius: 5px;
 	}
-	.learn{
+	.learn {
 		@include bigbutton-style;
 		@include bigbutton-font;
 		@include boxshadow-btn;
@@ -290,7 +326,7 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		margin-left: 5vw;
 		margin-right: 5vw;
 		background-color: $friendly-color;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			width: 20vw;
 		}
 	}
@@ -303,60 +339,62 @@ import MiniProgressbar from "./components/MiniProgressbar.svelte";
 		margin-left: 5vw;
 		margin-right: 5vw;
 		background-color: $correct-color;
-		@media (min-width: 810px){
+		@media (min-width: 810px) {
 			width: 20vw;
 		}
 	}
-.courseSection {
-	display: grid;
-	grid-template-columns: auto auto;
-}
-.flashlearn {
-	display: grid;
-	grid-template-columns: auto auto;
-}
-.topset {
-	display: grid;
-	grid-template-columns: 15vw 15vw 40vw ;
-	align-items: center;
-	justify-items: left;
-	height: 13vh;
-	@media (min-width: 810px){
-		// grid-template-columns: 5vw 5vw 70vw ;
-		height: 2vh;
+	.courseSection {
+		display: grid;
+		grid-template-columns: auto auto;
 	}
-}
-.logo {
-	width: 10vw;
-	@media (min-width: 810px){
-	width: 5vw;
-	margin-left: 1vw;
+	.flashlearn {
+		display: grid;
+		grid-template-columns: auto auto;
 	}
-	margin-left: 3vw;
-}
-.welcome {
-	margin-left: 5vw;
-	@include text-xx;
-	display:flex;
-	align-items: center;
-	font-size: 20px;
-	@media (min-width: 810px){
-		font-size: 25px;
+	.topset {
+		display: grid;
+		grid-template-columns: 15vw 15vw 40vw;
+		align-items: center;
+		justify-items: left;
+		height: 13vh;
+		@media (min-width: 810px) {
+			// grid-template-columns: 5vw 5vw 70vw ;
+			height: 2vh;
+		}
 	}
-}
-.welcomeemoji {
-	margin-left: 1vw;
-	width: 10vw;
-	@media (min-width: 810px){
-	width: 50px;
+	.logo {
+		width: 10vw;
+		@media (min-width: 810px) {
+			width: 5vw;
+			margin-left: 1vw;
+		}
+		margin-left: 3vw;
 	}
-
-}
-.full {
-	display: flex;
-	@media (min-width: 810px){
-flex-direction: row;
-flex-wrap: nowrap;
+	.welcome {
+		margin-left: 5vw;
+		@include text-xx;
+		display: flex;
+		align-items: center;
+		font-size: 20px;
+		@media (min-width: 810px) {
+			font-size: 25px;
+		}
 	}
-}
+	.welcomeemoji {
+		margin-left: 1vw;
+		width: 10vw;
+		@media (min-width: 810px) {
+			width: 50px;
+		}
+	}
+	.full {
+		display: flex;
+		@media (min-width: 810px) {
+			flex-direction: row;
+			flex-wrap: nowrap;
+		}
+	}
+	.starterA {
+		margin-left: 3vw;
+	}
 </style>
