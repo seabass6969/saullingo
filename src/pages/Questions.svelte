@@ -132,13 +132,18 @@
 	// animations area
 	let activeAnimation = false
 	$: {
+		ProgressFloat = getProgressFloat()
 		if(stats == questionStatus.correct){
 			activeAnimation = true
 		}else{
 			activeAnimation = false
 		}
 	}
-
+	const getProgressFloat = ():number => {
+		let localStorageItem = JSON.parse(localStorage.getItem("progress"))[$questionOnbyID[0]]
+		return localStorageItem.completed.length / localStorageItem.data.length
+	}
+	let ProgressFloat = getProgressFloat()
 </script>
 <FloatingAnimation active={activeAnimation} />
 <svelte:window bind:innerWidth={clientWidth} />
@@ -146,7 +151,7 @@
 	<div class="topbar" transition:slide={{duration: 500}}>
 		<div class="inTest">
 			<Close on:click={close}/>
-			<BigProgressBar progressFloat={1}/>
+			<BigProgressBar progressFloat={ProgressFloat}/>
 		</div>
 		<div class="titlebar">
 			<span class="coursetitle"><span style="background-color: {courseItem[$questionOnbyID[0]].themeColor}">{@html IPA(courseItem[$questionOnbyID[0]].courseName)}</span> - {@html IPA(courseItem[$questionOnbyID[0]].LessonName)}</span>
@@ -306,6 +311,12 @@
 		height: 10vh;
 		margin-top: 1vh;
 		margin-bottom: 1vh;
+		@media (min-width: 810px) {
+			height: 8vh;
+			width: 30vw;
+			margin-left: 35vw;
+			margin-right: 35vw;
+		}
 	}
 	.forgot{
 		background-color: $alert-color;
@@ -315,6 +326,12 @@
 		height: 10vh;
 		margin-top: 1vh;
 		margin-bottom: 1vh;
+		@media (min-width: 810px) {
+			height: 8vh;
+			width: 30vw;
+			margin-left: 35vw;
+			margin-right: 35vw;
+		}
 	}
 	.description {
 		margin-left: $margin-question;

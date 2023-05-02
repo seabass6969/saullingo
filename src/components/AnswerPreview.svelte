@@ -21,7 +21,7 @@
 </script>
 
 {#if questionType == questionTypes.LongQuestion}
-	<div class="answers">{answer}</div>
+	<div class="textareas">{answer}</div>
 {:else if questionType == questionTypes.MatchingQuestion}
 	<div class="questionContainer">
 		{#each matchAmatchB as AB}
@@ -59,12 +59,6 @@
 {/if}
 
 <style lang="scss">
-	.answers {
-		margin-left: $margin-question;
-		margin-right: $margin-question;
-		border-style: none;
-		background: #e6ff9e;
-	}
 	.answerContainer {
 		margin-left: $margin-question;
 	}
@@ -118,5 +112,13 @@
 	}
 	.B {
 		margin: 5px;
+	}
+
+	.textareas {
+		@include text-xx;
+		margin-left: $margin-question;
+		margin-right: $margin-question;
+		border-style: none;
+		background: #e6ff9e;
 	}
 </style>

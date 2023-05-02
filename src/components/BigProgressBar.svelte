@@ -1,7 +1,10 @@
 <script lang="ts">
+	   import { slide } from "svelte/transition"
     export let progressFloat:number
 </script>
-<div class="progressbarback"><div class="progressing" style="width: calc({progressFloat}*70vw)"></div></div>
+{#key progressFloat}
+<div class="progressbarback"><div class="progressing" style="width: calc({progressFloat}*70vw)" in:slide={{axis: "x", duration: 1000}}></div></div>
+{/key}
 <style lang="scss">
 	.progressbarback{
 		width: 70vw;

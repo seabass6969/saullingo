@@ -33,6 +33,7 @@ radio_button_unchecked
         border-style: solid;
         border-color: $base-color;
         align-items: center;
+        border-radius: 30px;
     }
     .checkedbox {
         border-color: $secondary-color;
