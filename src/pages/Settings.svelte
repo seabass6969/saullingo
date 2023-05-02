@@ -13,7 +13,11 @@
             localStorage.removeItem("lastLogin")
             localStorage.removeItem("progress")
             localStorage.removeItem("version")
-            
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+				for(let registration of registrations) {
+					registration.unregister();
+				} 
+			});
 			location.reload()
         }
     }
