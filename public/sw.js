@@ -16,10 +16,9 @@ const filesToCache = [
 "manifest.webmanifest",
 "favicon.svg",
 "sw.js",
-"https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2"
 ]
 
-let cacheName = "SAulLingo-do-not-click-me-MMXXII-cephas-v1.4";
+let cacheName = "SAulLingo-do-not-click-me-MMXXII-cephas-v1.5";
 // Install the service worker and cache the files
 self.addEventListener("install", event => {
   event.waitUntil(
