@@ -11,7 +11,8 @@ export enum pageType {
 	home,
 	flashcard,
 	starter,
-	update
+	update,
+	installhowto
 }
 export enum alertType {
 	simple,

@@ -1,7 +1,7 @@
 <script>
 	import { fade } from "svelte/transition";
 </script>
-<button on:click class="startnow" in:fade out:fade>
+<button on:click class="startnow" in:fade out:fade aria-label="Start Now">
 <svg class="image" width="320" height="58" viewBox="0 0 320 58" fill="none" xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="start now button" clip-path="url(#clip0_35_2)">

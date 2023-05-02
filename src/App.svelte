@@ -37,6 +37,7 @@
 	import StartNowExp from "./components/StartNowEXP.svelte";
 	import ExpandContent from "./components/ExpandContent.svelte";
 	import { typewriter } from "./lib/animation";
+	import InstallHowto from "./pages/InstallHowto.svelte";
 	let currentPage: pageType = pageType.home;
 	page.subscribe((value) => (currentPage = value));
 	let dayStreak = 0;
@@ -259,6 +260,8 @@
 	</div>
 {:else if currentPage == pageType.settings}
 	<Settings />
+{:else if currentPage == pageType.installhowto}
+	<InstallHowto />
 {:else}
 	<h1>ERROR ERROR</h1>
 {/if}

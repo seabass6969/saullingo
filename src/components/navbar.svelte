@@ -6,6 +6,7 @@
 	import Close from "./Close.svelte";
 	import Settingbtn from "./Settingbtn.svelte";
 	import Statisticbtn from "./Statisticbtn.svelte";
+	import Installbtn from "./Installbtn.svelte";
 
 	const settingsPage = () => {
         navbarOpen.set(false)
@@ -17,6 +18,10 @@
     const statisticPage = () => {
         navbarOpen.set(false)
         OpenDialog("Is just not there yet🚧")
+    }
+    const InstallPage = () => {
+        navbarOpen.set(false)
+        page.set(pageType.installhowto)
     }
     let clientWidth = 0
 </script>
@@ -36,6 +41,7 @@
         {/if}
         <Settingbtn on:click={settingsPage}/>
         <Statisticbtn on:click={statisticPage}/>
+        <Installbtn on:click={InstallPage}/>
     </div>
 </div>
 <style lang="scss">
@@ -48,7 +54,7 @@ box-shadow:  20px 20px 60px #bebebe,
         // background-color: $base-color;
 		border-radius: 0px 35px 35px 0px;
         display: grid;
-        grid-template-rows: repeat(3, 12vh);
+        grid-template-rows: repeat(4, 12vh);
         align-items: center;
         padding-left: 2vw;
         padding-right: 4vw;

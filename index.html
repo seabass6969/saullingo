@@ -10,17 +10,19 @@
 <link rel="manifest" href="/manifest.webmanifest">
     <title>Saullingo</title>
     <script>
-      if ('serviceWorker' in navigator) {
-      navigator
-          .serviceWorker
-          .register(
-          // 'non-prod_sw.js'
-          'sw.js'
-          )
-          .then(function (reg) {
-          console.log('Registration Successful');
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").then(registration => {
+        registration.addEventListener("updatefound", () => {
+          const installingWorker = registration.installing;
+          installingWorker.addEventListener("statechange", () => {
+            if (installingWorker.state === "installed") {
+              // Send a message to the service worker to trigger an update
+              installingWorker.postMessage("update");
+            }
           });
-      }
+        });
+      });
+    }
       </script>
 
   </head>
