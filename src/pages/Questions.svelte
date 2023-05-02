@@ -311,21 +311,21 @@
 		margin-left: $margin-question;
 		@include text-question;
 	}
-	.check {
-		background-color: $base-color;
-		@include bigbutton-style;
-		@include bigbutton-font;
-		@include boxshadow-btn;
-		height: 10vh;
-		margin-top: 1vh;
-		margin-bottom: 1vh;
-		@media (min-width: 810px) {
-			height: 8vh;
-			width: 30vw;
-			margin-left: 35vw;
-			margin-right: 35vw;
-		}
-	}
+	// .check {
+	// 	background-color: $base-color;
+	// 	@include bigbutton-style;
+	// 	@include bigbutton-font;
+	// 	@include boxshadow-btn;
+	// 	height: 10vh;
+	// 	margin-top: 1vh;
+	// 	margin-bottom: 1vh;
+	// 	@media (min-width: 810px) {
+	// 		height: 8vh;
+	// 		width: 30vw;
+	// 		margin-left: 35vw;
+	// 		margin-right: 35vw;
+	// 	}
+	// }
 	.forgot{
 		background-color: $alert-color;
 		@include bigbutton-style;

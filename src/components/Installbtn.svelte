@@ -9,7 +9,7 @@
 		// margin-top: 3.5vw;
 		// margin-bottom: 2vw;
 		margin-left: 1vw;
-		background-color: $friendly-color;
+		background-color: $correct-color;
 		border: 0px;
 		@include boxshadow-btn-small;
 
