@@ -15,7 +15,10 @@ const allcontent = [
 "index.html",
 "manifest.webmanifest",
 "favicon.svg",
-"sw.js"
+"sw.js",
+"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0",
+"https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap",
+"https://fonts.googleapis.com/css2?family=Carlito&display=swap"
 ]
 let cache_name = "SAulLingo-do-not-click-me-MMXXII-cephas";
 self.addEventListener("install",Event=> {
