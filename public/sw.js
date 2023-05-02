@@ -16,11 +16,10 @@ const filesToCache = [
 "manifest.webmanifest",
 "favicon.svg",
 "sw.js",
-"https://fonts.gstatic.com/s/carlito/v2/3Jn9SDPw3m-pk039DDmBTFcHXuB70Q.woff2",
-"https://fonts.gstatic.com/s/carlito/v2/3Jn9SDPw3m-pk039DDeBTFcHXuA.woff2",
-"https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2",
+"https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2"
 ]
-let cacheName = "SAulLingo-do-not-click-me-MMXXII-cephas-v1.1";
+
+let cacheName = "SAulLingo-do-not-click-me-MMXXII-cephas-v1.4";
 // Install the service worker and cache the files
 self.addEventListener("install", event => {
   event.waitUntil(
