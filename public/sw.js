@@ -15,7 +15,10 @@ const filesToCache = [
 "index.html",
 "manifest.webmanifest",
 "favicon.svg",
-"sw.js"
+"sw.js",
+"https://fonts.gstatic.com/s/carlito/v2/3Jn9SDPw3m-pk039DDmBTFcHXuB70Q.woff2",
+"https://fonts.gstatic.com/s/carlito/v2/3Jn9SDPw3m-pk039DDeBTFcHXuA.woff2",
+"https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA_hK1QNYuDyPw.woff2",
 ]
 let cacheName = "SAulLingo-do-not-click-me-MMXXII-cephas-v1.1";
 // Install the service worker and cache the files
