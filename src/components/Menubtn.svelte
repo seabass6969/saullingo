@@ -14,6 +14,8 @@
 		background-color: $friendly-color;
 		border: 0px;
 		@include boxshadow-btn-small;
+
+		@include text-normal;
 		@media (min-width: 810px){
             width: 45px;
             height: 45px;

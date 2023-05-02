@@ -1,5 +1,5 @@
 <script>
-	import { slide } from "svelte/transition";
+	import { fade, slide } from "svelte/transition";
 	import { OpenDialog } from "../lib/DialogUtils";
 	import { pageType } from "../lib/TQuestion";
 	import { navbarOpen, page } from "../lib/stores";
@@ -26,7 +26,7 @@
     let clientWidth = 0
 </script>
 <svelte:window bind:innerWidth={clientWidth} />
-<div class="navback">
+<div class="navback" out:fade={{duration: 300}} in:fade={{duration: 300}}>
     <div class="leftnav" in:slide={{duration: 300, axis: "x"}} out:slide={{duration: 300, axis: "x"}}>
         {#if clientWidth > 810}
             <div class="topset">

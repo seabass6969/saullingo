@@ -15,6 +15,7 @@
 	import { IPA } from "../lib/IpaFont";
 	import TextArea from "../components/TextArea.svelte";
 	import { OpenDialog } from "../lib/DialogUtils";
+	import Check from "../components/Check.svelte";
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
@@ -166,7 +167,8 @@
 				<span class="typehere">Type text here:</span>
 				<TextArea bind:choice={answerboz}/>
 		<button class="forgot" on:click={check} >Forgot</button>
-		<button class="check" on:click={check}>Check</button>
+		<!-- <button class="check" on:click={check}>Check</button> -->
+		<Check on:click={check} />
 			</div>
 		{:else if questionType == questionTypes.MatchingQuestion}
 			<div class="Matchquestion">
@@ -181,7 +183,8 @@
 				:</span>
 				<Matching bind:choice={answerboz} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="forgot" on:click={check} >Forgot</button>
-		<button class="check" on:click={check}>Check</button>
+		<!-- <button class="check" on:click={check}>Check</button> -->
+		<Check on:click={check} />
 			</div>
 		{:else if questionType == questionTypes.SelectionQuestion}
 			<div class="question">
@@ -190,7 +193,8 @@
 				<span class="typehere">click answer:</span>
 				<Radiobox bind:choice={answerboz} option={$questionOn["selection"]}/>
 		<button class="forgot" on:click={check} >Forgot</button>
-		<button class="check" on:click={check}>Check</button>
+		<!-- <button class="check" on:click={check}>Check</button> -->
+		<Check on:click={check} />
 			</div>
 		{:else if questionType == questionTypes.ReorderQuestion}
 			<div class="question">
@@ -199,7 +203,8 @@
 				<span class="typehere">Reorder by pressing on it:</span>
 				<Reorder bind:choice={answerboz} option={$questionOn["selection"]}/>
 		<button class="forgot" on:click={check} >Forgot</button>
-		<button class="check" on:click={check}>Check</button>
+		<!-- <button class="check" on:click={check}>Check</button> -->
+		<Check on:click={check} />
 			</div>
 		{/if}
 	<!-- {:else if stats == questionStatus.forgot}
@@ -220,7 +225,7 @@
 		<button class="next" on:click={again}>again</button>
 		</div>
 	{:else if stats == questionStatus.correct}
-		<div class="correctwrongPage" out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
+		<div class="correctwrongPage correctPage" out:fly={{x: 200, duration: 200}} class:matchcorrectwrongPage={questionType == questionTypes.MatchingQuestion}>
 			<span class="correctText">Well done!</span>
 			<span class="questions">Question: Type your answer</span>
 			<span class="description">{@html IPA($questionOn["question"])}</span>
@@ -270,7 +275,10 @@
 	.correctwrongPage{
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 6vh 7vh 22vh 5vh 25vh 13vh 13vh;
+		grid-template-rows: 6vh 7vh 9vh 50vh 13vh;
+	}
+	.correctPage {
+		grid-template-rows: 6vh 7vh 9vh 10vh 40vh 13vh;
 	}
 	.matchcorrectwrongPage{
 		display: grid;

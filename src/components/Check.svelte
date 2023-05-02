@@ -1,4 +1,5 @@
-<svg width="320" height="58" viewBox="0 0 320 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<button on:click class="btn">
+<svg class="check" width="320" height="58" viewBox="0 0 320 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="check button" clip-path="url(#clip0_46_121)">
 <rect id="box shadow box" x="10" y="8" width="310" height="50" rx="25" fill="#F2CF66"/>
 <rect id="Rectangle 18" width="310" height="50" rx="25" fill="#69CDA8"/>
@@ -209,3 +210,73 @@
 <image id="image0_46_121" data-name="crystal-ball.png" width="120" height="120" xlink:href="/emoji/crystal_ball.png"/>
 </defs>
 </svg>
+</button>
+<style lang="scss">
+    .check {
+		@media (min-width: 810px){
+        width: 40vw;
+        height: 6vh;
+        }
+        #Sun{
+            animation: forwards cloudMoveback 500ms;
+        }
+        &:hover #Sun{
+            animation: forwards cloudMove 500ms;
+        }
+        #Cloud{
+            animation: forwards cloudMoveback 500ms;
+        }
+        &:hover #Cloud{
+            animation: forwards cloudMove 500ms;
+        }
+        #The\ tree {
+            animation: forwards treeMoveback 500ms;
+        }
+        &:hover #The\ tree{
+            animation: forwards treeMove 500ms;
+        }
+    }
+    @keyframes treeMoveback {
+        0% {
+            transform: translateX(-30px);
+        }
+        100% {
+            transform: translateX(0px);
+        }
+    }
+    @keyframes treeMove {
+        0% {
+            transform: translateX(0px);
+        }
+        100% {
+            transform: translateX(-30px);
+        }
+    }
+    @keyframes cloudMoveback {
+        0% {
+            transform: translateY(10px);
+        }
+        100% {
+            transform: translateX(0px);
+        }
+    }
+    @keyframes cloudMove{
+        0% {
+            transform: translateX(0px);
+        }
+        100% {
+            transform: translateY(10px);
+        }
+    }
+    .btn {
+        width:fit-content;
+        height:fit-content;
+        border-color: none;
+        border-style: none;
+        background-color: transparent;
+        margin-left: $margin-question;
+		@media (min-width: 810px){
+            margin-left: 30vw;
+        }
+    }
+</style>

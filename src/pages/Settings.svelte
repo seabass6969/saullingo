@@ -7,7 +7,7 @@
 		page.set(pageType.home)
 	}
     const clearAllDAta = async () => {
-        let result = await OpenDialogConform("Are you sure")
+        let result = await OpenDialogConform("Are you sure you want to remove all you data?")
         if(result == alertconfirmType.yes){
             console.log("clearing All the data")
             localStorage.removeItem("lastLogin")
@@ -28,7 +28,7 @@
 </div>
 <br>
 <br>
-<button class="btn" on:click={clearAllDAta}>Clear All Data</button>
+<button class="btn" on:click={clearAllDAta}><span class="material-symbols-outlined">delete</span> Clear All Data</button>
 <style lang="scss">
 	.topFlash {
 		display: grid;
@@ -43,5 +43,8 @@
 		@include bigbutton-font;
 		@include boxshadow-btn;
 		background-color: $friendly-color;
+		display: flex;
+		align-items: center;
+		justify-content: center;
     }
 </style>

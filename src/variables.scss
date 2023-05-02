@@ -8,6 +8,13 @@ $friendly-color: #ff8ee3;
 $correct-color: #34be49;
 $margin-question: 8vw;
 
+@mixin text-normal {
+    // font-family: 'Kaisei Tokumin';
+    font-family: 'Quicksand', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+}
 @mixin bigbutton-font {
     // font-family: 'Kaisei Tokumin';
     font-family: 'Quicksand', sans-serif;
