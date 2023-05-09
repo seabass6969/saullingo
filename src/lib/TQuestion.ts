@@ -13,7 +13,8 @@ export enum pageType {
 	starter,
 	update,
 	installhowto,
-	dictionary
+	dictionary,
+	info
 }
 export enum alertType {
 	simple,

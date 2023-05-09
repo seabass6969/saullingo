@@ -8,6 +8,7 @@
 	import Statisticbtn from "./Statisticbtn.svelte";
 	import Installbtn from "./Installbtn.svelte";
 	import DictBtn from "./DictBtn.svelte";
+	import InfoBtn from "./InfoBtn.svelte";
 
 
 	const settingsPage = () => {
@@ -27,6 +28,9 @@
     }
     const DictPage = () => {
         page.set(pageType.dictionary)
+    }
+    const infopage = () => {
+        page.set(pageType.info)
     }
     let clientWidth = 0
 </script>
@@ -48,6 +52,7 @@
         <Statisticbtn on:click={statisticPage}/>
         <Installbtn on:click={InstallPage}/>
         <DictBtn on:click={DictPage}/>
+        <InfoBtn on:click={infopage}/>
     </div>
 </div>
 <style lang="scss">
@@ -60,7 +65,7 @@ box-shadow:  20px 20px 60px #bebebe,
         // background-color: $base-color;
 		border-radius: 0px 35px 35px 0px;
         display: grid;
-        grid-template-rows: repeat(5, 12vh);
+        grid-template-rows: repeat(6, 12vh);
         align-items: center;
         padding-left: 2vw;
         padding-right: 4vw;

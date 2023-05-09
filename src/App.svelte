@@ -39,6 +39,7 @@
 	import { typewriter } from "./lib/animation";
 	import InstallHowto from "./pages/InstallHowto.svelte";
 	import Dictionary from "./pages/Dictionary.svelte";
+	import Infopage from "./pages/Infopage.svelte";
 	let currentPage: pageType = pageType.home;
 	page.subscribe((value) => (currentPage = value));
 	let dayStreak = 0;
@@ -265,6 +266,8 @@
 	<Settings />
 {:else if currentPage == pageType.installhowto}
 	<InstallHowto />
+{:else if currentPage == pageType.info}
+	<Infopage />
 {:else}
 	<h1>ERROR ERROR</h1>
 {/if}
