@@ -41,3 +41,32 @@ export function dropDown(node, { duration }) {
 		}
 	};
 }
+// export function typewriterplaceholder(node, { speed = 1 }, textstring: string[]) {
+// 	let text = textstring;
+// 	let texteachLength = 0
+// 	textstring.forEach((element)=> {
+// 		texteachLength += element.length
+// 	})
+// 	const duration = texteachLength / (speed * 0.01);
+
+// 	return {
+// 		duration,
+// 		tick: t => {
+// 			const i = Math.trunc(text.length * t);
+// 			node.placeholder = text.slice(0, i);
+// 		}
+// 	};
+// }
+
+export function typewriterplaceholder(node, { speed = 1}) {
+	let text = node.placeholder;
+	const duration = text.length / (speed * 0.01);
+
+	return {
+		duration,
+		tick: t => {
+			const i = Math.trunc(text.length * t);
+			node.placeholder = text.slice(0, i);
+		}
+	};
+}

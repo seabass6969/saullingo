@@ -7,6 +7,8 @@
 	import Settingbtn from "./Settingbtn.svelte";
 	import Statisticbtn from "./Statisticbtn.svelte";
 	import Installbtn from "./Installbtn.svelte";
+	import DictBtn from "./DictBtn.svelte";
+
 
 	const settingsPage = () => {
         navbarOpen.set(false)
@@ -22,6 +24,9 @@
     const InstallPage = () => {
         navbarOpen.set(false)
         page.set(pageType.installhowto)
+    }
+    const DictPage = () => {
+        page.set(pageType.dictionary)
     }
     let clientWidth = 0
 </script>
@@ -42,6 +47,7 @@
         <Settingbtn on:click={settingsPage}/>
         <Statisticbtn on:click={statisticPage}/>
         <Installbtn on:click={InstallPage}/>
+        <DictBtn on:click={DictPage}/>
     </div>
 </div>
 <style lang="scss">
@@ -54,7 +60,7 @@ box-shadow:  20px 20px 60px #bebebe,
         // background-color: $base-color;
 		border-radius: 0px 35px 35px 0px;
         display: grid;
-        grid-template-rows: repeat(4, 12vh);
+        grid-template-rows: repeat(5, 12vh);
         align-items: center;
         padding-left: 2vw;
         padding-right: 4vw;

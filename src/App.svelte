@@ -38,6 +38,7 @@
 	import ExpandContent from "./components/ExpandContent.svelte";
 	import { typewriter } from "./lib/animation";
 	import InstallHowto from "./pages/InstallHowto.svelte";
+	import Dictionary from "./pages/Dictionary.svelte";
 	let currentPage: pageType = pageType.home;
 	page.subscribe((value) => (currentPage = value));
 	let dayStreak = 0;
@@ -258,6 +259,8 @@
 	<div transition:fly={{ y: 200, duration: 400 }}>
 		<Questions />
 	</div>
+{:else if currentPage == pageType.dictionary}
+	<Dictionary />
 {:else if currentPage == pageType.settings}
 	<Settings />
 {:else if currentPage == pageType.installhowto}

@@ -12,7 +12,8 @@ export enum pageType {
 	flashcard,
 	starter,
 	update,
-	installhowto
+	installhowto,
+	dictionary
 }
 export enum alertType {
 	simple,
@@ -93,3 +94,8 @@ export interface Tab {
 	courseIndex: number,
 	closed: boolean
 }
+interface dictionary {
+	english: string,
+	result:string 
+} 
+export type dictionarys = dictionary[]
