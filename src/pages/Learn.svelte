@@ -3,7 +3,7 @@
 	import { CourseLearn } from "../lib/CourseItem";
 	import { IPA } from "../lib/IpaFont";
 	import { page } from "../lib/stores";
-	import { pageType, type LearnSection } from "./../lib/TQuestion";
+	import { pageType, type LearnSection, LearnType } from "./../lib/TQuestion";
 	import { flashcardIndexOn,LearnIndexOn } from "../lib/stores";
 	const close = () => {
 		page.set(pageType.home)
@@ -22,7 +22,11 @@
 	{#each filterlearncourse($LearnIndexOn).ByLesson as lesson}
 <span class="titles">{@html IPA(lesson.lessonName)}</span>
 <div class="learnText">
-		{@html IPA(lesson.learn)}
+{#if lesson.Type == LearnType.simple}
+	{@html IPA(lesson.learn)}
+{:else}
+	{@html IPA(lesson.HTML)}
+{/if}
 </div>
 	{/each}
 </div>

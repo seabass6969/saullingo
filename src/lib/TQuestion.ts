@@ -81,15 +81,33 @@ export interface FlashcardList {
 	front: string,
 	back: string
 }
-
+export interface BasicLearn {
+	lessonIndex:number,
+	lessonName:string,
+}
+export enum LearnType {
+	simple = "simpleLearn",
+	html = "HTMLLearn"
+}
+export interface LearnByLesson extends BasicLearn{
+	learn:string,
+	Type: LearnType.simple
+}
+export interface HTMLlearnByLesson extends BasicLearn{
+	HTML: string,
+	Type: LearnType.html
+}
 export interface LearnSection{
 	courseIndex: number,
 	courseName: string
-	ByLesson: {
-		lessonIndex:number,
-		lessonName:string,
-		learn:string
-	}[]
+	ByLesson: (LearnByLesson | HTMLlearnByLesson)[]
+}
+export const isLearnByLesson = (Learn: LearnByLesson | HTMLlearnByLesson):boolean => {
+	if(Learn.Type == LearnType.simple){
+		return true
+	}else{
+		return false 
+	}
 }
 export interface Tab {
 	courseIndex: number,

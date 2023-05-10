@@ -12,7 +12,7 @@
     let eachSearchItem: dictionarys = []
     $: {
         if(typedSearch != ""){
-            eachSearchItem = dictionary.filter(filtrate => filtrate.english.indexOf(typedSearch) != -1)
+            eachSearchItem = dictionary.filter(filtrate => filtrate.english.indexOf(typedSearch.toLowerCase()) != -1)
         }else{
             eachSearchItem = []
         }
