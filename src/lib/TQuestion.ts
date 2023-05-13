@@ -1,3 +1,4 @@
+
 export enum questionStatus {
 	answer,
 	forgot,
@@ -25,11 +26,13 @@ export enum alertconfirmType {
 	yes,
 	waiting
 }
+// Question Type start here
 export enum questionTypes {
 	LongQuestion = "long",
 	SelectionQuestion = "select",
 	MatchingQuestion = "match",
-	ReorderQuestion = "reorder"
+	ReorderQuestion = "reorder",
+	TableMatchingQuestion = "tablematch",
 }
 export interface QuestionSample {
 	index: number,
@@ -59,7 +62,16 @@ export interface MatchingQuestioning {
 	matchA: string[],
 	matchB: string[]
 }
-export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning | ReorderQuestioning
+export interface TableMatching {
+	index: number,
+	question: string,
+	answer: string[][],
+	Type: questionTypes.TableMatchingQuestion,
+	MatchQuestion: (string | undefined)[][],
+	TopTable: string[],
+	LeftTable: string[]
+}
+export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning | ReorderQuestioning | TableMatching
 export interface courses {
 	index: number,
 	LessonName: string,
@@ -71,6 +83,7 @@ export interface courses {
 	optional: boolean
 }
 export type coursearr = courses[]
+// flashcard Types
 export interface Flashcard {
 	courseIndex: number,
 	courseName: string,
@@ -81,6 +94,7 @@ export interface FlashcardList {
 	front: string,
 	back: string
 }
+// learn types
 export interface BasicLearn {
 	lessonIndex:number,
 	lessonName:string,
@@ -109,10 +123,12 @@ export const isLearnByLesson = (Learn: LearnByLesson | HTMLlearnByLesson):boolea
 		return false 
 	}
 }
+// Tabs Type
 export interface Tab {
 	courseIndex: number,
 	closed: boolean
 }
+// dictionary type
 interface dictionary {
 	english: string,
 	result:string 

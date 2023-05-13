@@ -1,8 +1,8 @@
 <script>
 	import { fade } from "svelte/transition";
-	import { dropDown } from "../lib/animation";
-	import { AlertBoxType, DialogConform } from "../lib/stores";
-	import { alertType, alertconfirmType } from "../lib/TQuestion";
+	import { dropDown } from "../../lib/animation";
+	import { AlertBoxType, DialogConform } from "../../lib/stores";
+	import { alertType, alertconfirmType } from "../../lib/TQuestion";
     
     export let open = false
     const closer = () => {

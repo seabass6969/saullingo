@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import { fade, fly, slide } from "svelte/transition";
 	// import BigProgressBar from "./components/BigProgressBar.svelte";
-	import MiniProgressbar from "./components/MiniProgressbar.svelte";
+	import MiniProgressbar from "./components/home/MiniProgressbar.svelte";
 	import {
 		courseItem,
 		courseItemVersion,
@@ -12,19 +12,17 @@
 	import {
 		DialogOpen,
 		DialogText,
-		flashcardIndexOn,
-		flashcardOn,
 		navbarOpen,
 		page,
 		questionCouldAsked,
 	} from "./lib/stores";
 	import Questions from "./pages/Questions.svelte";
 	import { IPA } from "./lib/IpaFont";
-	import Dialog from "./components/Dialog.svelte";
+	import Dialog from "./components/Utillity/Dialog.svelte";
 	import { OpenDialog } from "./lib/DialogUtils";
 	import Settings from "./pages/Settings.svelte";
-	import Menubtn from "./components/Menubtn.svelte";
-	import Navbar from "./components/navbar.svelte";
+	import Menubtn from "./components/home/Menubtn.svelte";
+	import Navbar from "./components/navbar/navbar.svelte";
 	import { emojiText, timeText } from "./lib/TimeUtil";
 	import {
 		PageSwitchFlashcard,
@@ -33,9 +31,8 @@
 	} from "./lib/PageUtil";
 	import Learn from "./pages/Learn.svelte";
 	import Flashcardpage from "./pages/Flashcardpage.svelte";
-	// import StartNow from "./components/StartNow.old.svelte";
-	import StartNowExp from "./components/StartNowEXP.svelte";
-	import ExpandContent from "./components/ExpandContent.svelte";
+	import StartNow from "./components/home/StartNow.svelte";
+	import ExpandContent from "./components/home/ExpandContent.svelte";
 	import { typewriter } from "./lib/animation";
 	import InstallHowto from "./pages/InstallHowto.svelte";
 	import Dictionary from "./pages/Dictionary.svelte";
@@ -241,7 +238,7 @@
 		</main>
 	</div>
 	<div class="backgroundblur">
-		<StartNowExp on:click={startnow}/>
+		<StartNow on:click={startnow}/>
 		<!-- <StartNow on:click={startnow}/> -->
 	</div>
 {:else if currentPage == pageType.learn}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Tab, courses } from "../lib/TQuestion";
+	import type { Tab, courses } from "../../lib/TQuestion";
 
     export let closedTabs:Tab[]
     export let course:courses

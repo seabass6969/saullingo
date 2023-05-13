@@ -1,5 +1,5 @@
 <script>
-    import Close from "../components/Close.svelte";
+    import Close from "../components/Utillity/Close.svelte";
 	import { pageType } from "../lib/TQuestion";
 	import { page } from "../lib/stores";
 	const close = () => {

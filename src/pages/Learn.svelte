@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Close from "../components/Close.svelte";
+	import Close from "../components/Utillity/Close.svelte";
 	import { CourseLearn } from "../lib/CourseItem";
 	import { IPA } from "../lib/IpaFont";
 	import { page } from "../lib/stores";

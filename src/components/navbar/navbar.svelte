@@ -1,9 +1,9 @@
 <script>
 	import { fade, slide } from "svelte/transition";
-	import { OpenDialog } from "../lib/DialogUtils";
-	import { pageType } from "../lib/TQuestion";
-	import { navbarOpen, page } from "../lib/stores";
-	import Close from "./Close.svelte";
+	import { OpenDialog } from "../../lib/DialogUtils";
+	import { pageType } from "../../lib/TQuestion";
+	import { navbarOpen, page } from "../../lib/stores";
+	import Close from "../Utillity/Close.svelte";
 	import Settingbtn from "./Settingbtn.svelte";
 	import Statisticbtn from "./Statisticbtn.svelte";
 	import Installbtn from "./Installbtn.svelte";

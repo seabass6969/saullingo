@@ -1,21 +1,22 @@
 <script lang="ts">
 	import { fly, slide } from "svelte/transition";
-	import BigProgressBar from "../components/BigProgressBar.svelte";
-	import FloatingAnimation from "../components/FloatingAnimation.svelte";
-	import Matching from "../components/Matching.svelte";
-	import Radiobox from "../components/Radiobox.svelte";
+	import BigProgressBar from "../components/question/top_bottom/BigProgressBar.svelte";
+	import FloatingAnimation from "../components/question/FloatingAnimation.svelte";
+	import Matching from "../components/question/questionType/Matching.svelte";
+	import Radiobox from "../components/question/questionType/Radiobox.svelte";
 	import { courseItem } from "../lib/CourseItem";
 	//@ts-ignore
 	import { pageType, questionStatus, questionTypes} from "../lib/TQuestion";
 	import { spin } from "../lib/animation";
 	import { page, questionCouldAsked, questionOn, questionOnbyID, questionStats} from "../lib/stores";
-	import Reorder from "../components/Reorder.svelte";
-	import AnswerPreview from "../components/AnswerPreview.svelte";
-	import Close from "../components/Close.svelte";
+	import Reorder from "../components/question/questionType/Reorder.svelte";
+	import AnswerPreview from "../components/question/AnswerPreview.svelte";
+	import Close from "../components/Utillity/Close.svelte";
 	import { IPA } from "../lib/IpaFont";
-	import TextArea from "../components/TextArea.svelte";
+	import TextArea from "../components/question/questionType/TextArea.svelte";
 	import { OpenDialog } from "../lib/DialogUtils";
-	import Check from "../components/Check.svelte";
+	import Check from "../components/question/top_bottom/Check.svelte";
+	import MatchingTable from '../components/question/questionType/MatchingTable.svelte'
 	let stats = questionStatus.answer 
 	let questionAsked
 	let questionOns 
@@ -170,6 +171,21 @@
 		<!-- <button class="check" on:click={check}>Check</button> -->
 		<Check on:click={check} />
 			</div>
+		{:else if questionType == questionTypes.TableMatchingQuestion}
+			<div class="Matchquestion">
+				<span class="questions">Question: Matching Table</span>
+				<span class="description">{@html IPA($questionOn["question"])}</span>
+				<span class="typehere">Match
+					{#if clientWidth <= 815}
+						by pressing n swap
+					{:else}
+						by dragging
+					{/if}
+				:</span>
+		<MatchingTable bind:choice={answerboz} toptable={$questionOn.TopTable} MatchQuestion={$questionOn.MatchQuestion} lefttable={$questionOn.LeftTable}/>
+		<button class="forgot" on:click={check} >Forgot</button>
+		<Check on:click={check} />
+			</div>
 		{:else if questionType == questionTypes.MatchingQuestion}
 			<div class="Matchquestion">
 				<span class="questions">Question: Matching</span>
@@ -183,7 +199,6 @@
 				:</span>
 				<Matching bind:choice={answerboz} matchA={$questionOn["matchA"]} matchB={$questionOn['matchB']}/>
 		<button class="forgot" on:click={check} >Forgot</button>
-		<!-- <button class="check" on:click={check}>Check</button> -->
 		<Check on:click={check} />
 			</div>
 		{:else if questionType == questionTypes.SelectionQuestion}
@@ -320,7 +335,7 @@
 	// 	margin-top: 1vh;
 	// 	margin-bottom: 1vh;
 	// 	@media (min-width: 810px) {
-	// 		height: 8vh;
+	// 		height: 8vh// l1q=["","Which of these is How are you: teni al neə (te-nee arl nair), neəni (nair-nee) or neə nɛlaweɪ (nair nel-ar-way)","Match up the words: 1-Hello, 2-Goodbye, 3-How are you  A-nɪneɪ (ni-nay), B-teni al neə (te-nee arl nair), C- neəni (nair-nee) Give your answer in this form (1A,2B,3C).","Match up the words: 1-How are you, 2-Good night, 3-Good Morning  A-neə nɛlaweɪ (nair nel-ar-way), B-teni al neə (te-nee arl nair), C- neə ɛɹæʒweɪ (nair e-raj-way) Give your answer in this form (1A,2B,3C).","How would you write How are you Kynan? (write your answer phonetically)","How would you write Good Morning Cyll (write your answer phonetically)","How would you write Hello Kynan, Goodbye Mimiër. (you may write your answer in IPA or phonetically)"];
 	// 		width: 30vw;
 	// 		margin-left: 35vw;
 	// 		margin-right: 35vw;

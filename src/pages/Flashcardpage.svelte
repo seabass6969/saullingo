@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from "svelte/transition";
-	import Close from "../components/Close.svelte";
+	import Close from "../components/Utillity/Close.svelte";
 	import { courseFlashcard } from "../lib/CourseItem";
 	import { IPA } from "../lib/IpaFont";
 	import { pageType, type Flashcard } from "../lib/TQuestion";
