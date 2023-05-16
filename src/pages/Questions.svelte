@@ -182,7 +182,7 @@
 						by dragging
 					{/if}
 				:</span>
-		<MatchingTable bind:choice={answerboz} toptable={$questionOn.TopTable} MatchQuestion={$questionOn.MatchQuestion} lefttable={$questionOn.LeftTable}/>
+		<MatchingTable bind:choice={answerboz} toptable={$questionOn.TopTable} MatchQuestion={$questionOn.MatchQuestion} lefttable={$questionOn.LeftTable} TableSelection={$questionOn.TableSelection}/>
 		<button class="forgot" on:click={check} >Forgot</button>
 		<Check on:click={check} />
 			</div>

@@ -5,14 +5,15 @@
 	import { typewriterplaceholder } from "../lib/animation";
 	import { dictionary } from "../lib/dict";
 	import { page } from "../lib/stores";
-    let typedSearch: string
+    let typedSearch: string = ""
     const close = () => {
         page.set(pageType.home)
     }
     let eachSearchItem: dictionarys = []
     $: {
         if(typedSearch != ""){
-            eachSearchItem = dictionary.filter(filtrate => filtrate.english.indexOf(typedSearch.toLowerCase()) != -1)
+            typedSearch = typedSearch.toLowerCase()
+            eachSearchItem = dictionary.filter(filtrate => filtrate.english.indexOf(typedSearch) != -1)
         }else{
             eachSearchItem = []
         }

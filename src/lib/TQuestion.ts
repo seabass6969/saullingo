@@ -69,7 +69,8 @@ export interface TableMatching {
 	Type: questionTypes.TableMatchingQuestion,
 	MatchQuestion: (string | undefined)[][],
 	TopTable: string[],
-	LeftTable: string[]
+	LeftTable: string[],
+    TableSelection: string[]
 }
 export type DifferentQuestion = SelectionQuestioning | LongQuestioning | MatchingQuestioning | ReorderQuestioning | TableMatching
 export interface courses {

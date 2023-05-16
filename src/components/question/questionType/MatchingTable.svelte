@@ -1,12 +1,32 @@
 <script lang="ts">
-	export let choice: string[];
+	import { IPA } from "../../../lib/IpaFont";
+    export let choice: string[];
     export let toptable: string[] = [];
     export let lefttable: string[] = [];
     export let MatchQuestion: string[][] = [[]]
-	let clientWidth
+    export let TableSelection: string[] = []
+	let clientWidth:number
 	$: {
 		console.log(MatchQuestion)
 	}
+	const leave = (event, index) => {
+		try {
+            event.target.style.borderColor = "#0036F8";
+		} catch (error) {}
+	};
+	const enter = (event, index) => {
+    event.preventDefault();
+		if (event.target.classList.contains("B")) {
+			event.target.style.borderColor = "cornflowerblue";
+		}
+	};
+	const drag = (event, index) => {
+		event.dataTransfer.setData("text/plain", index);
+	};
+	const drop = (event, index) => {
+		event.preventDefault();
+	};
+    
 </script>
 
 <svelte:window bind:innerWidth={clientWidth}/>
@@ -14,31 +34,48 @@
 	<table>
 		<tr>
 			{#each toptable as top}
-				<td class="toprow">{top}</td>
+				<td class="toprow text">{@html IPA(top)}</td>
 			{/each}
 		</tr>
 		{#each MatchQuestion as mt,y}
 			 <tr class="rows">
-				<td class="toprow">{lefttable[y]}</td>
+				<td class="toprow text">{@html (lefttable[y])}</td>
 				{#each mt as ms,x}
-					<td class="row" class:toprow={ms != undefined}>{ms == undefined ? "" : ms}</td>
+                    {#if ms == undefined}
+					<td class="row text">empty</td>
+                    {:else}
+					<td class="row text toprow">{@html IPA(ms)}</td>
+                    {/if}
 				{/each}
 			 </tr>
 		{/each}
 	</table>
-	<h1>Coming soon 🚧</h1>
+    <table class="selectionArea">
+        <tr>
+        {#each TableSelection as tb, index}
+            <td class="selectionItem"
+				draggable="true"
+				on:dragstart={(event) => drag(event, index)}
+				on:dragover={(event) => enter(event, index)}
+				on:dragleave={(event) => leave(event, index)}
+				on:drop={(event) => drop(event, index)}
+            >{tb}</td>
+        {/each}
+        </tr>
+    </table>
 </div>
 
 <style lang="scss">
 	.questionContainer {
 		margin-left: $margin-question;
+		margin-right: $margin-question;
 		display: grid;
-		grid-template-columns: 50% 50%;
+		grid-template-rows: 70% 30%;
 	}
 	.row {
-		border-width: 2px;
-		border-color: $friendly-color;
-		border-style: solid;
+        border-width: 2px;
+        border-color: $friendly-color;
+        border-style: solid;
 	}
 	.rows{
 		height: fit-content;
@@ -48,4 +85,18 @@
 		border-color: $correct-color;
 		border-style: solid;
 	}
+	.text {
+		@include text-x;
+	}
+    .selectionArea {
+		border-width: 2px;
+		border-color: $secondary-color;
+		border-style: solid;
+    }
+    .selectionItem{
+		border-width: 2px;
+		border-color: $friendly-color;
+        margin: 10px;
+		border-style: solid;
+    }
 </style>

@@ -99,6 +99,7 @@ export const courseItem: coursearr = [
 					"Gnomic",
 				],
 				LeftTable: ["to be", "to move", "to be trapped"],
+                TableSelection: ["miʃi","neɪ","ɹɒzæ","miʃʌ","ni","ɹɒzeɪ","neɪ","miʃʌ","ɹɒzi"],
 				Type: questionTypes.TableMatchingQuestion,
 			},
 		],
